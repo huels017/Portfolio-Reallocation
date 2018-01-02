@@ -1,0 +1,35 @@
+
+
+
+Stage 1:
+Create minimum viable product(MVP). This will be out teir 1 product.  
+-The MVP needs to have the features described in the Read Me file. Bassically a functioning web application. 
+-The portfolio analysis is not descriped in the read me. It will be developed on an ongoing bases.
+  -A roadmap will be developed for the portfolio analysis feature addition. 
+  -Initially Aaron will direct what the portfolio analysis needs to accomplish. 
+ 
+Once the MVP is created we can roll out the beta version to the 12 financial advisors in the company Aaron works for.
+They will be able to use the web application for free initially and give feedback on what works, doesn't work, 
+and what additional features they would like. 
+After ~1-3 months of refinement we will role out the alpha version of our teir 1 product (MVP). 
+Aaron can get this in front of an additional ~200 financial advisors.
+The cost to rent per year is TBD. 
+Any money made in this stage will re reinvested into developing the teir 2 product.
+
+
+Stage 2:
+Create teir 2 product. 
+-The teir 2 product will be intergrated with eMoney, MorningStar, and financial institutions. 
+It should be able to pull ticker and quantity information from client accounts via financial institutions.
+It will then be able to use the ticker and quantity information to pull value and allocation data from MorningStar.
+The reallocation program will be able to determine tax consequenses which will greatly improve recommendations compared 
+to the teir 1 MVP. 
+
+Consider selling out after launching teir 2 product. 
+
+Stage 3:
+Create teir 3 product.
+This will pull financial data from all around the globe. 
+Using A.I. it will further improve the portfolio reallocation function. 
+
+Consider selling out after launching teir 3 product. 
