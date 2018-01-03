@@ -1,3 +1,7 @@
 1/2/2018
-You are able to upload a file and python will open it, modify it then will save the updated file in /share/FlaskApp/txtfiles. After uploading The app will build a page with download buttons and display the names of the files that were uploaded. Right now the buttons only lead to a sample.txt file, but that file is located in the same directory the files get stored in. Need to figure out how to generate the path of the files after they are done uploading but only giving rights to the user who uploaded it to download it. Also if you try to visit the webpage without uploading files you are not allowed to download anything and
+You are able to upload a file and python will open it, modify it then will save the updated file in /share/FlaskApp/txtfiles. 
+After uploading The app will build a page with download buttons and display the names of the files that were uploaded. 
+Right now the buttons only lead to a sample.txt file, but that file is located in the same directory the files get stored in. 
+Need to figure out how to generate the path of the files after they are done uploading but only giving rights to the user who uploaded it
+to download it. Also if you try to visit the webpage without uploading files you are not allowed to download anything and
 are presented with a link back to the first page.
