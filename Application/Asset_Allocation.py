@@ -10,14 +10,14 @@ def resourceAllocation(financialAccounts):
 
     #Pull in Account Data, desired allocation, and IRS statues from excel
 	
-    current_account_values, desired_allocation, ira_statues = pull_allocation_data('Allocation.xlsx')
+    current_account_values, desired_allocation, ira_statues, max_taxed_sales = pull_allocation_data('Allocation.xlsx')
 
-    #print(desired_allocation, "here")
-    #print(current_account_values, "There")
+
+    
 
     #Determine how to adjust accounts to reach desired allocation
     
-    reallocation_suggestion = reallocate_accounts(current_account_values, desired_allocation, ira_statues)
+    reallocation_suggestion = reallocate_accounts(current_account_values, desired_allocation, ira_statues, max_taxed_sales)
 
 
     output_results(current_account_values)
@@ -26,5 +26,5 @@ def resourceAllocation(financialAccounts):
     return reallocation_suggestion
 
 
-print(resourceAllocation('Allocation.xlsx'))
+resourceAllocation('Allocation.xlsx')
 
