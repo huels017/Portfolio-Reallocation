@@ -4,4 +4,9 @@ After uploading The app will build a page with download buttons and display the 
 Right now the buttons only lead to a sample.txt file, but that file is located in the same directory the files get stored in. 
 Need to figure out how to generate the path of the files after they are done uploading but only giving rights to the user who uploaded it
 to download it. Also if you try to visit the webpage without uploading files you are not allowed to download anything and
-are presented with a link back to the first page.
+are presented with a link back to the first page. -Micah
+
+1/3/2018
+After uploading files you can now click the download file and it redirects you to the modified file. You can now right click it
+and save the file but I am still trying to figure out how to make the file download after the user visits the link. Also need to
+figure out how to only alow a certin uisr to acess there files.
