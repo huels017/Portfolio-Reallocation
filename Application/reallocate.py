@@ -1,7 +1,7 @@
-from reallocate_functions import category_totalizer, desired_category_totals, list_difference, accounts_rule_scan, fixed_accounts_vs_desired_allocation, fixed_taxed_vs_desired_allocation, reallocate, absolute_change_needed
+from reallocate_functions import category_totalizer, desired_category_totals, list_difference, accounts_rule_scan, fixed_accounts_vs_desired_allocation, fixed_taxed_vs_desired_allocation, reallocate, absolute_change_needed, fund_ira
 
 
-def reallocate_accounts(current_account_values, desired_allocation, ira_statues):
+def reallocate_accounts(current_account_values, desired_allocation, ira_statues, max_taxed_sales):
     """
     reallocate accounts will take in account data, desired allocation and ira statues.
 
@@ -97,12 +97,10 @@ def reallocate_accounts(current_account_values, desired_allocation, ira_statues)
 
 
     #IRA Funding#
-    #-Does IRA needs funding?
-    #- yes, is cash on hand higher than desired cash?
-    #-      yes, is cash on hand higher than desired cash by the amount that IRA needs funding?
-    #-      no, 
+    #currently looking in fixed location for 'Cash on Hand'
+    # if cash on hand is not high enough, it will not fund ira
 
-
+    fund_ira(diff_current_vs_desired, current_account_values, account_rules, ira_statues)
 
     #Tax Exempt#
     #-over threshold? if yes minimun 10% taxed bonds
@@ -125,7 +123,7 @@ def reallocate_accounts(current_account_values, desired_allocation, ira_statues)
 
     #Taxed Accounts#
     #add- select max amount of taxed value to move around
-    reallocate(diff_current_vs_desired, current_account_values, account_rules, 'taxed')
+    reallocate(diff_current_vs_desired, current_account_values, account_rules, 'taxed', 1000)
     print(absolute_change_needed(diff_current_vs_desired))
 
 

@@ -5,7 +5,7 @@
 
 def category_totalizer(current_accounts):
     '''
-
+    totalizes the value of each category accross all accounts regardless of tax statues/rules. 
     '''
     category_names = [u'Cash/MMKT', u'Tax Bonds', u'Muni Bonds', u'LC Value', u'LC Growth', u'LC Blend', u'International', u'Emg Mkts', u'Sm/Mid Value', u'Sm/Mid Growth', u'Sm/Mid Blend', u'Commodities', u'REIT', u'Balanced']
 
@@ -16,18 +16,18 @@ def category_totalizer(current_accounts):
         total_category_values.append(0)
         for account in current_accounts:
             total_category_values[category_number] += account[1][category_number]
-            #print(account[1][category_number])
         category_number += 1
 
 
-
-    #print(total_category_values)
+    
     total = 0
     for category_value in total_category_values:
         total += category_value
 
 
     return total_category_values, total
+
+
 
 
 
@@ -184,11 +184,19 @@ def fixed_taxed_vs_desired_allocation(desired, current, rules):
 
 
 
-def reallocate(needed_change, current_account_values, account_rules, group_rule):
+def reallocate(needed_change, current_account_values, account_rules, group_rule, max_taxed_sales = 0):
     '''
-    add- select max amount of taxed value to move around
+    This will move value from account categories that are above desired allocation to account categories that are below desired allocation. 
+
+    This will only reallocate accounts with the same rules(tax exempt, tax deffered, taxxed, ext)
 
 
+    max_taxed_sales - limits how many taxed assets will be sold if the group_rule is 'taxed' 
+
+    The following list below sets the priority of which accounts to sell first and which to buy first.
+    This list is based on the assumption that tax exempt accounts are reallocated first, followed by tax deffered, and taxed accounts. 
+    The top of the list is bought first and the bottome is sold first. 
+    This consentrates the top of the list in tax exempt accounts and the bottom of the list in taxed accounts. 
     #Most benifit from tax exempt statues ###priority categories from list below####
     Emerg Mkts
     Sm/Mid Growth
@@ -234,17 +242,31 @@ def reallocate(needed_change, current_account_values, account_rules, group_rule)
     
 
     #reallocate one account at a time 
+    total_sales = 0
+    
     for account in accounts_with_rule:
         
-
+        
         sales = 0
         for sell in sell_categories:
-            smaller = min(abs(needed_change[sell]), current_account_values[account][1][sell])
+            to_sell = max_taxed_sales - total_sales
+            if group_rule != 'taxed':
+                to_sell = current_account_values[account][1][sell] 
+
+            smaller = min(abs(needed_change[sell]), current_account_values[account][1][sell], to_sell)
             current_account_values[account][1][sell] -= smaller
             needed_change[sell] += smaller
+            total_sales += smaller
             sales += smaller
-            #print(smaller)
+            #print(to_sell, total_sales)
             
+
+
+
+
+
+
+
         for cat in priority_categories:
             if cat in buy_categories:
                 small_buy = min(needed_change[cat], sales)
@@ -253,8 +275,10 @@ def reallocate(needed_change, current_account_values, account_rules, group_rule)
                 sales -= small_buy
                 #print(smaller)
 
+    
 
-
+    if group_rule == 'taxed':
+        print('Total taxed sales allowed: $' + str(max_taxed_sales))
 
 
     return current_account_values 
@@ -263,6 +287,13 @@ def reallocate(needed_change, current_account_values, account_rules, group_rule)
 
 
 def absolute_change_needed(change_list):
+    '''
+    abs_total -is the summed distance from the desired allocation- This should decrease or stay the same as the 'reallocate' function is called. If it increases than the reallocate function is not working properly. 
+ 
+    total -adds all distances above desired allocation and subtracts all distances below allocation. 
+    total should be 0. If it is not 0 then value is not being tracked properly. 
+     -Somewhere value is being added to an account category without being subracted from an account category, or visa versa. 
+    '''
     total = 0
     abs_total = 0
 
@@ -273,7 +304,71 @@ def absolute_change_needed(change_list):
     for value in change_list:
         total += (value)
 
-    return abs_total, total
+    return 'Abs dist from desired allocation: $' + str(int(abs_total)) + '. Sum of needed buys and sells: $' + str(int(total))
+
+
+
+
+
+def fund_ira(needed_change, current_account_values, account_rules, ira_statues):
+    '''
+    Does IRA need funding? 
+        -no- return
+        -yes
+            -is cash on hand > IRA funding needed?
+                -yes, fund with cash on hand to ira account category 'Emerg Mkts'
+                -no, sell from taxed accounts based on category priority list, starting with cash
+    '''
+
+
+    #does ira need funding?
+    ira_total_needed = 0
+    for account in ira_statues:
+        ira_total_needed += account[1][0]
+    print('$s to fund IRA accounts: ' + str(ira_total_needed))
+
+    if ira_total_needed == 0:
+        return
+
+    #What accounts to fund?
+    ira_account_lookup = []
+    for ira_account in ira_statues:
+        i = 0
+        for account in current_account_values:
+            if account[0][0] == ira_account[0][0]:
+                ira_account_lookup.append([i, ira_account[1][0]])
+                break
+            i += 1
+    #print(ira_account_lookup)
+
+ 
+
+
+    #enough cash on hand to fund ira?
+
+    if current_account_values[0][0][0] == 'Cash on Hand':
+        if current_account_values[0][1][0] > ira_total_needed:
+            print('cash on hand enought to fund ira')
+            current_account_values[0][1][0] -= ira_total_needed
+            for account in ira_account_lookup:
+                current_account_values[account[0]][1][7] += account[1]
+
+            #print(current_account_values)
+
+
+        else:
+            print('Not enough cash on hand to fund ira')
+    else:
+        print('Looking for Cash on hand in wrong location')
+        
+
+   #enough cash in taxed accounts? bonds?  
+
+
+
+    return 
+
+
 
 
 

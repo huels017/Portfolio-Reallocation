@@ -98,11 +98,12 @@ def pull_allocation_data(excel_name):
     ira_statues = create_list(number_of_ira_accounts, ira_tab, allocation_labels)
 
 
-
+    #max_taxed_sales - need to pull
+    max_taxed_sales = 2500
 
 
     
-    return current_account_values, desired_allocation, ira_statues
+    return current_account_values, desired_allocation, ira_statues, max_taxed_sales
 
 #print(pull_allocation_data('Allocation.xlsx')
 
