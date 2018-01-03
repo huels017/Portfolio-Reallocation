@@ -19,6 +19,7 @@ Any money made in this stage will re reinvested into developing the teir 2 produ
 
 Stage 2:
 Create teir 2 product. 
+Start on a new server. Will probably want to use a different stack at this time but won't know until start of stage 2. 
 -The teir 2 product will be intergrated with eMoney, MorningStar, and financial institutions. 
 It should be able to pull ticker and quantity information from client accounts via financial institutions.
 It will then be able to use the ticker and quantity information to pull value and allocation data from MorningStar.
