@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Completed</title>
+</head>
+{% for i in list %}
+<body>
+<h2>Your File {{i}} has been uploaded.</h2>
+
+<p><a href = "/return-file/" target="blank"><button class='btn btn-default'> Download {{i}} </button> </a> </p>
+
+{% endfor %}
+
+<p>Files are located on the server non acessable form the web for security purposes. For testing you can log in and  view them in /home/share/FlaskApp/txtfiles <p></body>
+</html>
+
