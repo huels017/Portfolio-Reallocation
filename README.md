@@ -19,6 +19,7 @@ For privacy and security reasons the excel template will not have client identif
 
 
 
+### Below will become a new repository when applicable###
 
 Teir 2 product:
 Later versions will be intergrated with MorningStar, eMoney, and/or other finical applications(possibly banking institutions) in order to stream line the flow of client data and have access to more data. This will allow the program to make better reallocation recommendations. The intergration with financial institutions will nessesitate adaquate security measures to insure client data protection and privacy. 
