@@ -11,3 +11,5 @@ After uploading files you can now click the download file and it redirects you t
 and save the file but I am still trying to figure out how to make the file download after the user visits the link. Also need to
 figure out how to only alow a certin uisr to acess there files.
 Got a Django server up and running to see what Django looks like / has to offer. its ip is http://165.227.45.59/
+ 
+Chris- reallocation program now allows ira funding but only if there is enough cash on hand. It can now also max the amount of taxed dollars spent. The excel temple and pull function need to be updated for this feature. 
