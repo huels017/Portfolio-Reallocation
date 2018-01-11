@@ -13,3 +13,9 @@ figure out how to only alow a certin uisr to acess there files.
 Got a Django server up and running to see what Django looks like / has to offer. its ip is http://165.227.45.59/
  
 Chris- reallocation program now allows ira funding but only if there is enough cash on hand. It can now also max the amount of taxed dollars spent. The excel temple and pull function need to be updated for this feature. 
+
+1/5/2018
+Hardcoded login page available at /login need to work on connecting it to a database.
+
+1/11/18
+Installed mysql root password is OceansR$alty975!
