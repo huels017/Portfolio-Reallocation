@@ -10,5 +10,8 @@
 		<a href="{{ url_for('main.index') }}">Home</a>
 		<hr>
 		{% block content %}{% endblock %}
+
+		{# application content needs to be provided in the app_content block #}
+		{% block app_content %}{% endblock %}
 	</body>
 </html>
