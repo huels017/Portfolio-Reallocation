@@ -1,0 +1,14 @@
+<html>
+	<head>
+		{% if title %}
+		<title>{{ title }}</title>
+		{% else %}
+		<title>Welcome</title>
+		{% endif %}
+	</head>
+	<body>
+		<a href="{{ url_for('main.index') }}">Home</a>
+		<hr>
+		{% block content %}{% endblock %}
+	</body>
+</html>
