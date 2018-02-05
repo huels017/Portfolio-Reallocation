@@ -1,0 +1,29 @@
+﻿To run Portfolio-Reallocation
+
+
+
+
+create virtual environment
+in desired directory
+$ virtualenv env
+$ source env/bin/activate
+
+
+Install python modules:
+
+$ pip install pandas
+
+$ pip install data_container
+
+$ pip install excel_import
+
+
+
+
+
+
+
+
+
+
+
