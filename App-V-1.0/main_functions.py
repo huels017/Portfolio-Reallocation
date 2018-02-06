@@ -2,7 +2,7 @@ import excel_import
 import data_container as dc
 
 """
-An example of how to use the excel_import module and the DataContainer class.
+Functions to determine tax rules, special rules, desired allocation, and general calculations
 """
 
 
