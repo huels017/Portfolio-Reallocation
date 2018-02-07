@@ -121,3 +121,14 @@ def catTotal(CATEGORY):
     ACCOUNT_NAME = "Total (Portfolio)"
     ASSET_TYPE = CATEGORY
     return accounts.getValue(ACCOUNT_NAME,  ASSET_TYPE)
+
+
+
+
+def desiredVsRealCatValue(CATEGORY):
+    '''
+    returns the difference between the desired category value
+    and the real category getValue
+
+    '''
+    return desiredCatTotal(CATEGORY) - catTotal(CATEGORY)
