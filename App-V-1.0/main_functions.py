@@ -15,12 +15,22 @@ EXCEL_HEADER_ROW_INDEX = 0 # This is the row number that has the names of the as
 dataframes = excel_import.importExcel(EXCEL_FILE_NAME, EXCEL_HEADER_ROW_INDEX) # Read the Excel file
 
 
-#### Create DataContainers for Sheets that will be referenced >1: #### 
+#### Create DataContainers for Sheets ####
 ######################################################################
 
 ACCOUNTS_SHEET_NAME = "Accounts"
 accounts = dc.DataContainer(dataframes[ACCOUNTS_SHEET_NAME]) # Create a DataContainer for the 'accounts' worksheet
 
+
+
+TAX_SHEET = "Tax_Status"
+taxSheet = dc.DataContainer(dataframes[TAX_SHEET]) # Create a DataContainer for the 'Tax_Status' worksheet
+
+
+
+
+DESIRED_ALLOCATION_SHEET_NAME = "Desired_Allocation"
+desiredAllocation = dc.DataContainer(dataframes[DESIRED_ALLOCATION_SHEET_NAME])
 
 
 
@@ -31,9 +41,6 @@ def RulePerAccountType(ACCOUNT_TYPE):
     '''
     Looks at 'Tax_Status' Tab to determine tax rule of an account type
     '''
-    TAX_SHEET = "Tax_Status"
-    taxSheet = dc.DataContainer(dataframes[TAX_SHEET]) # Create a DataContainer for the 'Tax_Status' worksheet
-    
     CHANGES = "Changes To"
     NQ = "Tax Status"
     DEF = "Def/Exempt"
@@ -78,7 +85,7 @@ def findAcctsWithRule(RULE):
 
         if RulePerAccountType(str(accountType)) == RULE:
             ruleAccountList.append(account)
-  
+
     return ruleAccountList
 
 
@@ -87,25 +94,30 @@ def findAcctsWithRule(RULE):
 
 
 
+def totalPortfolioValue():
+    '''
+    Returns the value of the entire portfolio
+    '''
+    ACCOUNT_NAME = "Total (Portfolio)"
+    ASSET_TYPE = "Total"
+    return accounts.getValue(ACCOUNT_NAME,  ASSET_TYPE)
 
 
 
+def desiredCatTotal(CATEGORY):
+    '''
+    Returns the desired total value for a single category
+    '''
+    CATEGORY_NAME = CATEGORY
+    COLUMN = "Desired Percent"
+    catPercent = desiredAllocation.getValue(CATEGORY_NAME,  COLUMN)
+    catDesiredValue = totalPortfolioValue() * catPercent
+    return catDesiredValue
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def catTotal(CATEGORY):
+    '''
+    Returns the original total value for a single category
+    '''
+    ACCOUNT_NAME = "Total (Portfolio)"
+    ASSET_TYPE = CATEGORY
+    return accounts.getValue(ACCOUNT_NAME,  ASSET_TYPE)
