@@ -132,3 +132,31 @@ def desiredVsRealCatValue(CATEGORY):
 
     '''
     return desiredCatTotal(CATEGORY) - catTotal(CATEGORY)
+
+
+
+
+
+####
+
+
+
+
+def listOfAccounts():
+    '''
+    Returns a list of Accounts (excludes Total(Portfolio) row)
+    '''
+    return accounts.getRowNames()[0:-1]
+
+
+def listOfCategories():
+    '''
+    Returns a list of categories (excludes Owner, Institution, and Account Type Columns)
+    '''
+    return accounts.getHeaderNames()[3:-1]
+
+def catValuesList(CAT_NAME):
+    '''
+    Returns a list of values for each category in an account execpt for the 'Total (pPortfolio)' row
+    '''
+    return accounts.getColumns(CAT_NAME)[0:-1]
