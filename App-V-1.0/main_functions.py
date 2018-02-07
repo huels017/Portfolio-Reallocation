@@ -9,9 +9,7 @@ Functions to determine tax rules, special rules, desired allocation, and general
 #### Import and parse the Excel file: ####
 ##########################################
 
-# ".." means go to the folder outside the current one. So if we are in /app/source_code, then ".."
-# brings us into /app.
-#EXCEL_FILE_NAME = "../import_test.xlsx"
+
 EXCEL_FILE_NAME = "../Allocation_Template.xlsx"
 EXCEL_HEADER_ROW_INDEX = 0 # This is the row number that has the names of the asset classes (cash, bonds, stock, etc.)
 dataframes = excel_import.importExcel(EXCEL_FILE_NAME, EXCEL_HEADER_ROW_INDEX) # Read the Excel file
@@ -38,7 +36,7 @@ def RulePerAccountType(ACCOUNT_TYPE):
     
     CHANGES = "Changes To"
     NQ = "Tax Status"
-    Def = "Def/Exempt"
+    DEF = "Def/Exempt"
 
     if  str(ACCOUNT_TYPE) == "nan":
         return "none"
@@ -52,10 +50,10 @@ def RulePerAccountType(ACCOUNT_TYPE):
     elif taxSheet.getValue(ACCOUNT_TYPE, NQ) == "NQ":
         return "NQ"
 
-    elif taxSheet.getValue(ACCOUNT_TYPE, Def) == "Exempt":
+    elif taxSheet.getValue(ACCOUNT_TYPE, DEF) == "Exempt":
         return "EXEMPT"
 
-    elif taxSheet.getValue(ACCOUNT_TYPE, Def) == "Def":
+    elif taxSheet.getValue(ACCOUNT_TYPE, DEF) == "Def":
         return "DEF"
 
 
@@ -76,9 +74,9 @@ def findAcctsWithRule(RULE):
     ruleAccountList = []
 
     for account in accountNames:
-        AccountType = accounts.getValue(account, ACCOUNT_TYPE)
+        accountType = accounts.getValue(account, ACCOUNT_TYPE)
 
-        if RulePerAccountType(str(AccountType)) == RULE:
+        if RulePerAccountType(str(accountType)) == RULE:
             ruleAccountList.append(account)
   
     return ruleAccountList
