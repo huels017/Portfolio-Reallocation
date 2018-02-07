@@ -1,4 +1,4 @@
-from main_functions import listOfAccounts, listOfCategories, catValuesList, findAcctsWithRule, desiredCatTotal
+from main_functions import listOfAccounts, listOfCategories, catValuesList, findAcctsWithRule, desiredCatTotal, specialRules
 
 import pandas as pd
 
@@ -32,6 +32,11 @@ def reallocate():
         cashOnHandValue += reallocation.get_value(account, CASH_CAT)
 
     desiredCash = desiredCatTotal(CASH_CAT)
+
+
+    #Special rule variables defined#
+    maxTaxedSales, qualifiedContr, minHSACash = specialRules()
+
 
 
     #Special rule#

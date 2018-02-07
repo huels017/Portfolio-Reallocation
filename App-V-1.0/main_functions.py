@@ -22,11 +22,12 @@ ACCOUNTS_SHEET_NAME = "Accounts"
 accounts = dc.DataContainer(dataframes[ACCOUNTS_SHEET_NAME]) # Create a DataContainer for the 'accounts' worksheet
 
 
-
 TAX_SHEET = "Tax_Status"
 taxSheet = dc.DataContainer(dataframes[TAX_SHEET]) # Create a DataContainer for the 'Tax_Status' worksheet
 
 
+SPECIAL_RULES_SHEET = "Other_inputs"
+specialRulesSheet = dc.DataContainer(dataframes[SPECIAL_RULES_SHEET])
 
 
 DESIRED_ALLOCATION_SHEET_NAME = "Desired_Allocation"
@@ -136,12 +137,6 @@ def desiredVsRealCatValue(CATEGORY):
 
 
 
-
-####
-
-
-
-
 def listOfAccounts():
     '''
     Returns a list of Accounts (excludes Total(Portfolio) row)
@@ -160,3 +155,12 @@ def catValuesList(CAT_NAME):
     Returns a list of values for each category in an account execpt for the 'Total (pPortfolio)' row
     '''
     return accounts.getColumns(CAT_NAME)[0:-1]
+
+
+
+def specialRules():
+    '''
+    Returns list of special rule variables (Max Taxed Sales, Needed Qualified Contribution, HSA Cash Min)
+    '''
+    COLUMN = "Value"
+    return specialRulesSheet.getColumns(COLUMN)
