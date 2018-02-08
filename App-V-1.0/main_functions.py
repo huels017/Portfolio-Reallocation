@@ -34,6 +34,13 @@ DESIRED_ALLOCATION_SHEET_NAME = "Desired_Allocation"
 desiredAllocation = dc.DataContainer(dataframes[DESIRED_ALLOCATION_SHEET_NAME])
 
 
+def accountsCopy():
+    '''
+    Return a copy of accounts DataContainer
+    The copy will be used to store reallocation changes
+    '''
+    return dc.DataContainer(dataframes[ACCOUNTS_SHEET_NAME])
+
 
 #### Functions for Rules and Calculations ####
 ##############################################
@@ -64,11 +71,7 @@ def RulePerAccountType(ACCOUNT_TYPE):
     elif taxSheet.getValue(ACCOUNT_TYPE, DEF) == "Def":
         return "DEF"
 
-
     return "Account Type Unknown"
-
-
-
 
 
 
@@ -88,10 +91,6 @@ def findAcctsWithRule(RULE):
             ruleAccountList.append(account)
 
     return ruleAccountList
-
-
-
-
 
 
 
@@ -115,6 +114,8 @@ def desiredCatTotal(CATEGORY):
     catDesiredValue = totalPortfolioValue() * catPercent
     return catDesiredValue
 
+
+
 def catTotal(CATEGORY):
     '''
     Returns the original total value for a single category
@@ -125,36 +126,12 @@ def catTotal(CATEGORY):
 
 
 
-
 def desiredVsRealCatValue(CATEGORY):
     '''
     returns the difference between the desired category value
     and the real category getValue
-
     '''
     return desiredCatTotal(CATEGORY) - catTotal(CATEGORY)
-
-
-
-
-def listOfAccounts():
-    '''
-    Returns a list of Accounts (excludes Total(Portfolio) row)
-    '''
-    return accounts.getRowNames()[0:-1]
-
-
-def listOfCategories():
-    '''
-    Returns a list of categories (excludes Owner, Institution, and Account Type Columns)
-    '''
-    return accounts.getHeaderNames()[3:-1]
-
-def catValuesList(CAT_NAME):
-    '''
-    Returns a list of values for each category in an account execpt for the 'Total (pPortfolio)' row
-    '''
-    return accounts.getColumns(CAT_NAME)[0:-1]
 
 
 
@@ -164,3 +141,47 @@ def specialRules():
     '''
     COLUMN = "Value"
     return specialRulesSheet.getColumns(COLUMN)
+
+
+
+def cashOnHand():
+    '''
+    Returns the total value of all Cash On Hand acounts
+    '''
+    CASH_CAT = "Cash/MMKT"
+    CASH_RULE = "CASH"
+    CASH_ON_HAND_ACCOUNTS = findAcctsWithRule(CASH_RULE)
+
+    cashOnHandValue = 0
+    for account in CASH_ON_HAND_ACCOUNTS:
+        cashOnHandValue += accounts.getValue(account, CASH_CAT)
+    return cashOnHandValue
+
+
+
+#### Not sure which of these are even needed now that accounts_copy is available
+### CSH made these when creating a dataframe without using the DataContainer
+### Will delete anything below that is not referenced after reallocate.py is working
+
+
+def listOfAccounts():
+    '''
+    Returns a list of Accounts (excludes Total(Portfolio) row)
+    '''
+    return accounts.getRowNames()[0:-1]
+
+
+
+def listOfCategories():
+    '''
+    Returns a list of categories (excludes Owner, Institution, and Account Type Columns)
+    '''
+    return accounts.getHeaderNames()[3:-1]
+
+
+
+def catValuesList(CAT_NAME):
+    '''
+    Returns a list of values for each category in an account execpt for the 'Total (pPortfolio)' row
+    '''
+    return accounts.getColumns(CAT_NAME)[0:-1]
