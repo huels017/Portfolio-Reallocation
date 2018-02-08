@@ -1,0 +1,31 @@
+﻿To run Portfolio-Reallocation
+
+Must clear the ‘Reallocation.xls’ file or you risk having data from a previous reallocation being left behind. (if a previous portfolio had more accounts than current portfolio)
+
+
+
+create virtual environment
+in desired directory
+$ virtualenv env
+$ source env/bin/activate
+
+
+Install python modules:
+
+$ pip install openpyxl
+
+
+$ pip install xlwt
+
+
+
+
+
+
+
+
+
+
+
+
+
