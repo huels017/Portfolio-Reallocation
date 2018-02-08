@@ -45,3 +45,11 @@ accountNames = accounts.getRowNames() # List all of the account names
 # Get the number of rows and columns and save it in variable 'dimensions' as a tuple
 dimensions = accounts.numberOfRows(), accounts.numberOfColumns()
 # print dimensions
+
+# Prove that data is copied and separate from other DataContainers
+accounts_copy = dc.DataContainer(dataframes[ACCOUNTS_SHEET_NAME])
+NEW_VALUE = 99999
+accounts_copy.setValue(ACCOUNT_NAME, ASSET_TYPE, NEW_VALUE)
+# print accounts_copy.getValue("A1", "Cash/MMKT") # Should be the value of NEW_VALUE
+# print accounts.getValue("A1", "Cash/MMKT") # Should NOT be the value of NEW_VALUE
+

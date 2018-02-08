@@ -10,7 +10,7 @@ class DataContainer(object):
 		Args:
 			dataframe (dataframe): A pandas dataframe representing the data.
 		"""
-		self.data = dataframe
+		self.data = dataframe.copy(deep=True)
 
 	def __getitem__(self, indices):
 		row, column = indices
@@ -27,6 +27,16 @@ class DataContainer(object):
 			The data at point (row, column).
 		"""
 		return self.data.at[row, column]
+
+	def setValue(self, row, column, value):
+		"""Set the value at the intersection of (row, column).
+
+		Args:
+			row (string): The row.
+			column (string): The column.
+			value: The new value that should be set.
+		"""
+		self.data.at[row, column] = value
 
 	def getColumns(self, columns):
 		"""Get the values from the specified columns; the columns are returned
