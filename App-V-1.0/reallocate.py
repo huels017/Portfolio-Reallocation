@@ -1,5 +1,5 @@
 from main_functions import findAcctsWithRule, desiredCatTotal, specialRules, accountsCopy, cashOnHand
-
+from reallocate_functions import reallocateRuleGroup, accountSales, buySellCats
 
 
 def reallocate():
@@ -10,7 +10,7 @@ def reallocate():
 
     #Create copy of accounts DataContainer
     accounts_copy = accountsCopy()
-
+    ACCOUNTS = accounts_copy
 
 
     ### Define Special Rule Variables ###
@@ -20,7 +20,7 @@ def reallocate():
     CASH_CAT = "Cash/MMKT"
     desiredCash = desiredCatTotal(CASH_CAT)
 
-    maxTaxedSales, qualifiedContr, minHSACash = specialRules()
+    maxTaxedSales, qualifiedContrValue, minHSACash = specialRules()
 
 
 
@@ -28,10 +28,12 @@ def reallocate():
     ###################################
 
     #use cash on hand to fund 'Needed Qualified Contribution'
-    if cashOnHandValue >= qualifiedContr:
-        cashOnHandValue -= qualifiedContr
-        print 'Move $' + str(qualifiedContr) + ' of cash/MMKT to Qualified account from Cash On Hand'
+    if cashOnHandValue >= qualifiedContrValue:
+        cashOnHandValue -= qualifiedContrValue
+        qualifiedContr = True
+        print 'Move $' + str(qualifiedContrValue) + ' of cash/MMKT to Qualified account from Cash On Hand'
     else:
+        qualifiedContr = False
         print 'Not enough Cash On Hand to fund Qualified account(s)'
 
 
@@ -47,34 +49,34 @@ def reallocate():
     ### Reallocate ###
     ##################
 
-    ### fund qualified accout with cash on hand###
+    ### fund qualified account with cash on hand###
 
 
 
     ###Exempt accounts###
     #Special rule: 'HSA Cash Min'
+    RULE = "EXEMPT"
+    reallocateRuleGroup(ACCOUNTS, RULE)
+
 
 
     ###Deffered accounts###
-
+    RULE = "DEF"
+    reallocateRuleGroup(ACCOUNTS, RULE)
 
 
     ###Cash On Hand###
-
+    RULE = "CASH"
+    reallocateRuleGroup(ACCOUNTS, RULE)
 
 
     ###Non-Qualified accounts###
     #special rule: 'Max Taxed Sales'
+    RULE = "NQ"
+    reallocateRuleGroup(ACCOUNTS, RULE)
 
 
 
 
-
-
-
-
-
-
-
-    return
+    return accounts_copy
 reallocate()

@@ -3,6 +3,10 @@ import data_container as dc
 
 """
 Functions to determine tax rules, special rules, desired allocation, and general calculations
+These should remain static through the reallocation process
+Anything values that might change should go into the reallocate_functions.py file
+Note: depending on how we deal with category special rules, this might need to be futher seperated.
+    -the functions might need to be run on accounts_copy instead of accounts if we start grouping categories
 """
 
 
@@ -116,25 +120,6 @@ def desiredCatTotal(CATEGORY):
 
 
 
-def catTotal(CATEGORY):
-    '''
-    Returns the original total value for a single category
-    '''
-    ACCOUNT_NAME = "Total (Portfolio)"
-    ASSET_TYPE = CATEGORY
-    return accounts.getValue(ACCOUNT_NAME,  ASSET_TYPE)
-
-
-
-def desiredVsRealCatValue(CATEGORY):
-    '''
-    returns the difference between the desired category value
-    and the real category getValue
-    '''
-    return desiredCatTotal(CATEGORY) - catTotal(CATEGORY)
-
-
-
 def specialRules():
     '''
     Returns list of special rule variables (Max Taxed Sales, Needed Qualified Contribution, HSA Cash Min)
@@ -143,7 +128,7 @@ def specialRules():
     return specialRulesSheet.getColumns(COLUMN)
 
 
-
+#this is static- might need a dynamic category totalizer for reallocate functions
 def cashOnHand():
     '''
     Returns the total value of all Cash On Hand acounts
@@ -159,6 +144,35 @@ def cashOnHand():
 
 
 
+def listOfCategories():
+    '''
+    Returns a list of categories (excludes Owner, Institution, and Account Type Columns)
+    '''
+    return accounts.getHeaderNames()[3:-1]
+
+
+
+def catPrioirtyList():
+    '''
+    Returns a list of categories in order of which category benifits most
+    from being in a qualified account
+    '''
+    CATEGORY_LIST = listOfCategories()
+    COLUMN = "Ranking starting with best in tax exempt "
+    CAT_PRIORITY_LIST = []
+
+    for cat in CATEGORY_LIST:
+        CAT_PRIORITY_LIST.append('')
+
+    for cat in CATEGORY_LIST:
+        catPriority = desiredAllocation.getValue(cat,  COLUMN)
+        CAT_PRIORITY_LIST[int(catPriority)-1] = cat
+
+    return CAT_PRIORITY_LIST
+
+
+
+
 #### Not sure which of these are even needed now that accounts_copy is available
 ### CSH made these when creating a dataframe without using the DataContainer
 ### Will delete anything below that is not referenced after reallocate.py is working
@@ -169,19 +183,3 @@ def listOfAccounts():
     Returns a list of Accounts (excludes Total(Portfolio) row)
     '''
     return accounts.getRowNames()[0:-1]
-
-
-
-def listOfCategories():
-    '''
-    Returns a list of categories (excludes Owner, Institution, and Account Type Columns)
-    '''
-    return accounts.getHeaderNames()[3:-1]
-
-
-
-def catValuesList(CAT_NAME):
-    '''
-    Returns a list of values for each category in an account execpt for the 'Total (pPortfolio)' row
-    '''
-    return accounts.getColumns(CAT_NAME)[0:-1]
