@@ -1,6 +1,6 @@
 from main_functions import findAcctsWithRule, desiredCatTotal, specialRules, accountsCopy, cashOnHand
 
-import pandas as pd
+
 
 def reallocate():
     '''
