@@ -78,4 +78,4 @@ def reallocate():
 
 
     return reallocatedAccounts
-reallocate()
+#reallocate()
