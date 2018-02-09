@@ -1,5 +1,5 @@
-from main_functions import findAcctsWithRule, desiredCatTotal, specialRules, accountsCopy, cashOnHand
-from reallocate_functions import reallocateRuleGroup, accountSales, buySellCats
+from main_functions import desiredCategoryTotal, specialRules, accountsCopy, cashOnHand
+from reallocate_functions import reallocateRuleGroup, accountSales
 
 
 def reallocate():
@@ -9,18 +9,18 @@ def reallocate():
     '''
 
     #Create copy of accounts DataContainer
-    accounts_copy = accountsCopy()
-    ACCOUNTS = accounts_copy
+    reallocatedAccounts = accountsCopy()
+
 
 
     ### Define Special Rule Variables ###
     #####################################
     cashOnHandValue = cashOnHand()
 
-    CASH_CAT = "Cash/MMKT"
-    desiredCash = desiredCatTotal(CASH_CAT)
+    CASH_CATEGORY = "Cash/MMKT"
+    desiredCash = desiredCategoryTotal(CASH_CATEGORY)
 
-    maxTaxedSales, qualifiedContrValue, minHSACash = specialRules()
+    maxTaxedSales, qualifiedContrabutionValue, minHSACash = specialRules()
 
 
 
@@ -28,21 +28,20 @@ def reallocate():
     ###################################
 
     #use cash on hand to fund 'Needed Qualified Contribution'
-    if cashOnHandValue >= qualifiedContrValue:
-        cashOnHandValue -= qualifiedContrValue
-        qualifiedContr = True
-        print 'Move $' + str(qualifiedContrValue) + ' of cash/MMKT to Qualified account from Cash On Hand'
+    if cashOnHandValue >= qualifiedContrabutionValue:
+        cashOnHandValue -= qualifiedContrabutionValue
+        qualifiedContrabution = True
+        print 'Move $' + str(qualifiedContrabutionValue) + ' of cash/MMKT to Qualified account from Cash On Hand'
     else:
-        qualifiedContr = False
+        qualifiedContrabution = False
         print 'Not enough Cash On Hand to fund Qualified account(s)'
 
 
 
     #if cash on hand is greater then desired cash, fund a NQ accountType
     if cashOnHandValue > desiredCash:
-        cashDiff = cashOnHandValue - desiredCash
-        #print type(cashDiff)
-        print 'Move $' + str(cashDiff) + ' of cash/MMKT to NQ account from Cash On Hand'
+        extraCash = cashOnHandValue - desiredCash
+        print 'Move $' + str(extraCash) + ' of cash/MMKT to NQ account from Cash On Hand'
 
 
 
@@ -56,27 +55,27 @@ def reallocate():
     ###Exempt accounts###
     #Special rule: 'HSA Cash Min'
     RULE = "EXEMPT"
-    reallocateRuleGroup(ACCOUNTS, RULE)
+    reallocateRuleGroup(reallocatedAccounts, RULE)
 
 
 
     ###Deffered accounts###
     RULE = "DEF"
-    reallocateRuleGroup(ACCOUNTS, RULE)
+    reallocateRuleGroup(reallocatedAccounts, RULE)
 
 
     ###Cash On Hand###
     RULE = "CASH"
-    reallocateRuleGroup(ACCOUNTS, RULE)
+    reallocateRuleGroup(reallocatedAccounts, RULE)
 
 
     ###Non-Qualified accounts###
     #special rule: 'Max Taxed Sales'
     RULE = "NQ"
-    reallocateRuleGroup(ACCOUNTS, RULE)
+    reallocateRuleGroup(reallocatedAccounts, RULE)
 
 
 
 
-    return accounts_copy
+    return reallocatedAccounts
 reallocate()

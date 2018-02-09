@@ -1,4 +1,4 @@
-from main_functions import desiredCatTotal, listOfCategories, findAcctsWithRule, catPrioirtyList
+from main_functions import desiredCategoryTotal, listOfCategories, findAccountsWithRule, categoryPriorityList
 
 
 '''
@@ -7,105 +7,109 @@ Functions used in the reallocate function
 
 
 
-def catValuesList(ACCOUNTS, CAT_NAME):
+def categoyValuesList(accounts, catergory):
     '''
     Returns a list of values for each category in an account execpt for the 'Total (pPortfolio)' row
     '''
-    return ACCOUNTS.getColumns(CAT_NAME)[0:-1]
+    return accounts.getColumns(catergory)[0:-1]
 
 
 
-def catValueTotal(ACCOUNTS, CAT_NAME):
+def categoryValueTotal(accounts, catergory):
     '''
     Returns the total value of a single catergory across all accounts
     '''
-    cat_values_list = catValuesList(ACCOUNTS, CAT_NAME)
-    cat_total_value = 0
-    for cat in cat_values_list:
-        cat_total_value += cat
+    categoryValuesList = categoyValuesList(accounts, catergory)
+    categoryTotalValue = 0
+    for category in categoryValuesList:
+        categoryTotalValue += category
 
-    return cat_total_value
+    return categoryTotalValue
 
 
 
-def desiredVsRealCatValue(ACCOUNTS, CAT_NAME):
+def desiredVsRealCategoryValue(accounts, catergory):
     '''
     returns the difference between the desired category value
     and the real category getValue
-    Positive values mean that category should be sold
+    Positive values mean that the category should be sold
+    Negitive values mean that the category should be bought
+    The +/- will be used in 'buySellCategories' to split categories into buy and sell groups
     '''
-    return catValueTotal(ACCOUNTS, CAT_NAME) - desiredCatTotal(CAT_NAME)
+    return categoryValueTotal(accounts, catergory) - desiredCategoryTotal(catergory)
 
 
 
-def buySellCats(ACCOUNTS):
+def buySellCategories(accounts):
     '''
     Returns two lists/dicts,
     1) list/dict of categories to buy and value needed to buy to reach desired allocation
     2) list/dict of categoies to sell and value needed to sell to reach desired allocation
+    Note: May want to use +0.01 and -0.01 to split buys and sell to avoid grouping categries with near 0 but not excatly 0 values. ie 0.0000000000000001234234
     '''
-    buy_categories = []
-    sell_categories = []
+    buyCategories = []
+    sellCategories = []
 
-    cat_list = listOfCategories()
+    categoryList = listOfCategories()
 
-    for cat in cat_list:
-        sellValue = desiredVsRealCatValue(ACCOUNTS, cat)
+    for category in categoryList:
+        sellValue = desiredVsRealCategoryValue(accounts, category)
         if sellValue > 0:
-            sell_categories.append([cat, sellValue])
+            sellCategories.append([category, sellValue])
         elif sellValue <0:
-            buy_categories.append([cat, -sellValue])
+            buyCategories.append([category, -sellValue])
 
-    return sell_categories, buy_categories
+    return sellCategories, buyCategories
 
 
 
-def accountSales(ACCOUNTS, account):  #, RULE, SpecialRules):
+def accountSales(accounts, account):  #, rule, SpecialRules):
     '''
-    Sells funds within given account based off buySellCats
+    Sells funds within given account based off buySellCategories
     ***Still needed***
         -track total non-cash sales,
         -special rule, stop sales if non-cash sales > max taxed sales, and Rule = "NQ"
         -special rule, if HSA account, stop cash/MMKT sale when cash/MMKT = HSA min
     '''
-    sell_categories, buy_categories = buySellCats(ACCOUNTS)
+    sellCategories, buyCategories = buySellCategories(accounts)
     sales = 0
 
-    for cat in sell_categories:
-        smaller_sale = min(cat[1], ACCOUNTS.getValue(account, cat[0]))
-        account_cat_value = ACCOUNTS.getValue(account, cat[0]) - smaller_sale
-        ACCOUNTS.setValue(account, cat[0], account_cat_value)
-        sales += smaller_sale
+    for catergory in sellCategories:
+        smallerSale = min(catergory[1], accounts.getValue(account, catergory[0]))
+        accountCategoryValue = accounts.getValue(account, catergory[0]) - smallerSale
+        accounts.setValue(account, catergory[0], accountCategoryValue)
+        sales += smallerSale
     return sales
 
 
 
-def accountBuys(ACCOUNTS, account, sales):
+def accountBuys(accounts, account, sales):
     '''
-    Buys funds within given account based off buySellCats
+    Buys funds within given account based off buySellCategories
     '''
-    sell_categories, buy_categories = buySellCats(ACCOUNTS)
-    cat_priority_list = catPrioirtyList()
+    sellCategories, buyCategories = buySellCategories(accounts)
+    #variable below this line shouldn't change, Should I make it into a fixed variable outside this function? on this .py file? or global? CATEGORY_LISTED_BY_PRIOTITY
+    categoryListedByPriority = categoryPriorityList()
 
-    for cat in cat_priority_list:
-        for buy_cat in buy_categories:
-            if cat == buy_cat[0]:
-                smaller_buy = min(buy_cat[1], sales)
-                account_cat_value = ACCOUNTS.getValue(account, buy_cat[0]) + smaller_buy
-                ACCOUNTS.setValue(account, buy_cat[0], account_cat_value)
-                sales -= smaller_buy
+    for category in categoryListedByPriority:
+        for buyCategory  in buyCategories:
+            if category == buyCategory [0]:
+                smallerBuy  = min(buyCategory [1], sales)
+                accountCategoryValue = accounts.getValue(account, buyCategory [0]) + smallerBuy
+                accounts.setValue(account, buyCategory [0], accountCategoryValue)
+                sales -= smallerBuy
     return
 
 
 
-def reallocateRuleGroup(ACCOUNTS, RULE):  #, SpecialRules):
+def reallocateRuleGroup(accounts, rule):  #, SpecialRules):
     '''
     Reallocates all accounts within one rule group by mondifying the accounts_copy DataContainer
     '''
-    accounts_in_rule_group = findAcctsWithRule(RULE)
+    accountsInRuleGroup = findAccountsWithRule(rule)
 
-    for account in accounts_in_rule_group:
+    for account in accountsInRuleGroup:
         sales = 0
-        sales += accountSales(ACCOUNTS, account)
-        accountBuys(ACCOUNTS, account, sales)
+        sales += accountSales(accounts, account)
+        accountBuys(accounts, account, sales)
     return

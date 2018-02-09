@@ -4,7 +4,7 @@ import data_container as dc
 """
 Functions to determine tax rules, special rules, desired allocation, and general calculations
 These should remain static through the reallocation process
-Anything values that might change should go into the reallocate_functions.py file
+Any values that might change should go into the reallocate_functions.py file
 Note: depending on how we deal with category special rules, this might need to be futher seperated.
     -the functions might need to be run on accounts_copy instead of accounts if we start grouping categories
 """
@@ -49,49 +49,50 @@ def accountsCopy():
 #### Functions for Rules and Calculations ####
 ##############################################
 
-def RulePerAccountType(ACCOUNT_TYPE):
+def rulePerAccountType(accountType):
     '''
     Looks at 'Tax_Status' Tab to determine tax rule of an account type
     '''
-    CHANGES = "Changes To"
-    NQ = "Tax Status"
-    DEF = "Def/Exempt"
+    CHANGES_COLUMN = "Changes To"
+    NQ_COLUMN = "Tax Status"
+    DEF_COLUMN = "Def/Exempt"
 
-    if  str(ACCOUNT_TYPE) == "nan":
+    if  str(accountType) == "nan":
         return "none"
 
-    if  ACCOUNT_TYPE == "Cash":
+    if  accountType == "Cash":
         return "CASH"
 
-    elif taxSheet.getValue(ACCOUNT_TYPE, CHANGES) == "N":
+    elif taxSheet.getValue(accountType, CHANGES_COLUMN) == "N":
         return "FIXED"
 
-    elif taxSheet.getValue(ACCOUNT_TYPE, NQ) == "NQ":
+    elif taxSheet.getValue(accountType, NQ_COLUMN) == "NQ":
         return "NQ"
 
-    elif taxSheet.getValue(ACCOUNT_TYPE, DEF) == "Exempt":
+    elif taxSheet.getValue(accountType, DEF_COLUMN) == "Exempt":
         return "EXEMPT"
 
-    elif taxSheet.getValue(ACCOUNT_TYPE, DEF) == "Def":
+    elif taxSheet.getValue(accountType, DEF_COLUMN) == "Def":
         return "DEF"
 
+    print "Unknown Account Type Found: " + str(accountType)
     return "Account Type Unknown"
 
 
 
-def findAcctsWithRule(RULE):
+def findAccountsWithRule(rule):
     '''
     Returns account names with a desired rule (Exp&Def, Def, Cash, NQ, Fixed)
     '''
-    ACCOUNT_TYPE = "Account Type"
+    COLUMN_NAME = "Account Type"
     accountNames = accounts.getRowNames()
 
     ruleAccountList = []
 
     for account in accountNames:
-        accountType = accounts.getValue(account, ACCOUNT_TYPE)
+        accountType = accounts.getValue(account, COLUMN_NAME)
 
-        if RulePerAccountType(str(accountType)) == RULE:
+        if rulePerAccountType(str(accountType)) == rule:
             ruleAccountList.append(account)
 
     return ruleAccountList
@@ -101,22 +102,23 @@ def findAcctsWithRule(RULE):
 def totalPortfolioValue():
     '''
     Returns the value of the entire portfolio
+    Note: This assumes the imported excel file calculations are correct.
+    This does not confirm the calculation is correct
     '''
-    ACCOUNT_NAME = "Total (Portfolio)"
-    ASSET_TYPE = "Total"
-    return accounts.getValue(ACCOUNT_NAME,  ASSET_TYPE)
+    ROW_NAME = "Total (Portfolio)"
+    COLUMN_NAME = "Total"
+    return accounts.getValue(ROW_NAME,  COLUMN_NAME)
 
 
 
-def desiredCatTotal(CATEGORY):
+def desiredCategoryTotal(category):
     '''
     Returns the desired total value for a single category
     '''
-    CATEGORY_NAME = CATEGORY
     COLUMN = "Desired Percent"
-    catPercent = desiredAllocation.getValue(CATEGORY_NAME,  COLUMN)
-    catDesiredValue = totalPortfolioValue() * catPercent
-    return catDesiredValue
+    categoryPercent = desiredAllocation.getValue(category,  COLUMN)
+    categoryDesiredValue = totalPortfolioValue() * categoryPercent
+    return categoryDesiredValue
 
 
 
@@ -131,15 +133,15 @@ def specialRules():
 #this is static- might need a dynamic category totalizer for reallocate functions
 def cashOnHand():
     '''
-    Returns the total value of all Cash On Hand acounts
+    Returns the total value of all Cash On Hand accounts
     '''
-    CASH_CAT = "Cash/MMKT"
+    COLUMN = "Cash/MMKT"
     CASH_RULE = "CASH"
-    CASH_ON_HAND_ACCOUNTS = findAcctsWithRule(CASH_RULE)
+    cashOnHandAccounts = findAccountsWithRule(CASH_RULE)
 
     cashOnHandValue = 0
-    for account in CASH_ON_HAND_ACCOUNTS:
-        cashOnHandValue += accounts.getValue(account, CASH_CAT)
+    for account in cashOnHandAccounts:
+        cashOnHandValue += accounts.getValue(account, COLUMN)
     return cashOnHandValue
 
 
@@ -152,30 +154,24 @@ def listOfCategories():
 
 
 
-def catPrioirtyList():
+def categoryPriorityList():
     '''
     Returns a list of categories in order of which category benifits most
     from being in a qualified account
     '''
-    CATEGORY_LIST = listOfCategories()
+    categoryList = listOfCategories()
     COLUMN = "Ranking starting with best in tax exempt "
-    CAT_PRIORITY_LIST = []
+    categoryPriorityList = []
 
-    for cat in CATEGORY_LIST:
-        CAT_PRIORITY_LIST.append('')
+    for category in categoryList:
+        categoryPriorityList.append('')
 
-    for cat in CATEGORY_LIST:
-        catPriority = desiredAllocation.getValue(cat,  COLUMN)
-        CAT_PRIORITY_LIST[int(catPriority)-1] = cat
+    for category in categoryList:
+        categoryPriority = desiredAllocation.getValue(category,  COLUMN)
+        categoryPriorityList[int(categoryPriority)-1] = category
 
-    return CAT_PRIORITY_LIST
+    return categoryPriorityList
 
-
-
-
-#### Not sure which of these are even needed now that accounts_copy is available
-### CSH made these when creating a dataframe without using the DataContainer
-### Will delete anything below that is not referenced after reallocate.py is working
 
 
 def listOfAccounts():
