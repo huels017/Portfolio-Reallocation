@@ -76,7 +76,7 @@ def rulePerAccountType(accountType):
         return "DEF"
 
     print "Unknown Account Type Found: " + str(accountType)
-    return "Account Type Unknown"
+    return None
 
 
 
@@ -177,5 +177,6 @@ def categoryPriorityList():
 def listOfAccounts():
     '''
     Returns a list of Accounts (excludes Total(Portfolio) row)
+    Should I instead have it look for 'total' in the text name? I could pull the full 'accounts.getRowNames()', then iterate through each name to check if 'total' is found. If total is found then I wont include it in the returned list.
     '''
     return accounts.getRowNames()[0:-1]
