@@ -12,15 +12,18 @@ def exportToExcel(accounts):
     categoryList = listOfCategories()
     accountList = listOfAccounts()
 
-    SHEET1.write(0, 0, "Account")
+    ROW = 0  #Account
+    COLUMN = 0  #Category
+
+    SHEET1.write(ROW, COLUMN, "Account")
     i = 1
     for category in categoryList:
-        SHEET1.write(0, i, category)
+        SHEET1.write(ROW, i, category)
         i +=1
 
     i = 1
     for account in accountList:
-        SHEET1.write(i, 0, account)
+        SHEET1.write(i, COLUMN, account)
         ii = 1
         for category in categoryList:
             SHEET1.write(i, ii, accounts.getValue(account, category))
