@@ -173,10 +173,24 @@ def categoryPriorityList():
     return categoryPriorityList
 
 
+'''
+def listOfAccounts():
+    ''
+    Returns a list of Accounts (excludes Total(Portfolio) row)
+    Should I instead have it look for 'total' in the text name? I could pull the full 'accounts.getRowNames()', then iterate through each name to check if 'total' is found. If total is found then I wont include it in the returned list.
+    ''
+    return accounts.getRowNames()[0:-1]
+'''
 
 def listOfAccounts():
     '''
-    Returns a list of Accounts (excludes Total(Portfolio) row)
-    Should I instead have it look for 'total' in the text name? I could pull the full 'accounts.getRowNames()', then iterate through each name to check if 'total' is found. If total is found then I wont include it in the returned list.
+    Returns a list of Accounts excluding any account with 'total' in the names
     '''
-    return accounts.getRowNames()[0:-1]
+    accountsList = []
+    rowNameList = accounts.getRowNames()
+    FALSE = -1
+
+    for rowName in rowNameList:
+        if rowName.upper().find('TOTAL') == FALSE:
+            accountsList.append(rowName)
+    return accountsList

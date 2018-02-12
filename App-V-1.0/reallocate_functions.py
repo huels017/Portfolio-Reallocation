@@ -1,4 +1,4 @@
-from main_functions import desiredCategoryTotal, listOfCategories, findAccountsWithRule, categoryPriorityList
+from main_functions import desiredCategoryTotal, listOfCategories, findAccountsWithRule, categoryPriorityList, listOfAccounts
 
 
 '''
@@ -6,12 +6,28 @@ Functions used in the reallocate function
 '''
 
 
-
-def categoyValuesList(accounts, category):
-    '''
+'''
+def categoryValuesList(accounts, category):
+    ''
     Returns a list of values for each category in an account execpt for the 'Total (pPortfolio)' row
-    '''
+    ''
     return accounts.getColumns(category)[0:-1]
+'''
+
+
+def categoryValuesList(accounts, category):
+    '''
+    Returns a list of values for each account in a specific category
+    Does not inculde 'Total (Portfolio)' row
+    '''
+    accountsList = listOfAccounts()
+    listOfCategoryValues = []
+
+    for account in accountsList:
+        listOfCategoryValues.append(accounts.getValue(account,category))
+
+    return listOfCategoryValues
+
 
 
 
@@ -19,9 +35,9 @@ def categoryValueTotal(accounts, category):
     '''
     Returns the total value of a single category across all accounts
     '''
-    categoryValuesList = categoyValuesList(accounts, category)
+    listOfCategoryValues = categoryValuesList(accounts, category)
     categoryTotalValue = 0
-    for category in categoryValuesList:
+    for category in listOfCategoryValues:
         categoryTotalValue += category
 
     return categoryTotalValue
