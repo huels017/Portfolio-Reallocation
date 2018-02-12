@@ -148,7 +148,7 @@ def cashOnHand():
 
 def listOfCategories():
     '''
-    Returns a list of categories (excludes Owner, Institution, and Account Type Columns)
+    Returns a list of categories (excludes Owner, Institution, Account Type, and Total Columns)
     '''
     return accounts.getHeaderNames()[3:-1]
 
