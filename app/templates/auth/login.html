@@ -2,25 +2,33 @@
 
 {% block app_content %}
 
-	<h1>Sign in</h1>
-
-	<form action="" method="post">
-		{{ form.hidden_tag() }}
-		<div>
-			{{ form.username.label }}<br>
-			{{ form.username(size=32) }}<br>
-			{% for error in form.username.errors %}
-				<span style="color: red;">[{{ error }}]</span>
-			{% endfor %}
+<div class="container">
+	<div class="row justify-content-center logo">
+		<img src="{{url_for('static', filename='img/pig.png')}}" />
+	</div>
+	<div class="row justify-content-center">
+		<div class="col-sm-6 card">
+			<form action="" method="post">
+				{{ form.hidden_tag() }}
+				<span class="form-title">Log in</span>
+				<div>
+					{{ form.username(size=32, class="form-control") }}
+					{% for error in form.username.errors %}
+						<span class="notification">{{ error }}</span>
+					{% endfor %}
+				</div>
+				<div>
+					{{ form.password(size=32, class="form-control") }}
+					{% for error in form.password.errors %}
+						<span class="notification">{{ error }}</span>
+					{% endfor %}
+				</div>
+				<div >{{ form.submit(class="btn btn-outline-primary") }}</div>
+			</form>
+			<span class="form-link"><a href=#>Forgot your password?</a></span>
+			<hr>
+			<span class="form-link">New? <a href=#>Create an account</a></span>
 		</div>
-		<div>
-			{{ form.password.label }}<br>
-			{{ form.password(size=32) }}<br>
-			{% for error in form.password.errors %}
-				<span style="color: red;">[{{ error }}]</span>
-			{% endfor %}
-		</div>
-		<div>{{ form.submit() }}</div>
-	</form>
-
+	</div>
+</div>
 {% endblock %}
