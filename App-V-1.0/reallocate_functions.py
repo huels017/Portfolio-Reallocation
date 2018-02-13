@@ -131,3 +131,20 @@ def reallocateRuleGroup(accounts, rule):  #, SpecialRules):
         sales = 0
         sales += accountSales(accounts, account)
         accountBuys(accounts, account, sales)
+        
+
+
+
+def interAccountTransfer(accounts, accountFrom, categoryFrom, accountTo, categoryTo, transferValue):
+    '''
+    Transfers a value from a category in one account to a category in a second account
+    '''
+    fromAccountValue = accounts.getValue(accountFrom, categoryFrom)
+    toAccountValue = accounts.getValue(accountTo, categoryTo)
+
+    if fromAccountValue < transferValue:
+        return "Not enough funds to complete Transfer between accounts"
+
+    accounts.setValue(accountFrom, categoryFrom, (fromAccountValue - transferValue))
+    accounts.setValue(accountTo, categoryTo, (toAccountValue + transferValue))
+

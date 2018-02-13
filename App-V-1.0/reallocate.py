@@ -1,5 +1,5 @@
 from main_functions import desiredCategoryTotal, specialRules, accountsCopy, cashOnHand
-from reallocate_functions import reallocateRuleGroup, accountSales
+from reallocate_functions import reallocateRuleGroup, accountSales, interAccountTransfer
 
 
 def reallocate():
@@ -35,6 +35,8 @@ def reallocate():
     else:
         #qualifiedContrabution = False
         print 'Not enough Cash On Hand to fund Qualified account(s)'
+
+
 
 
 
@@ -78,4 +80,4 @@ def reallocate():
 
 
     return reallocatedAccounts
-reallocate()
+#reallocate()
