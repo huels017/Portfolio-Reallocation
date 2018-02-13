@@ -20,7 +20,7 @@ def reallocate():
     CASH_CATEGORY = "Cash/MMKT"
     desiredCash = desiredCategoryTotal(CASH_CATEGORY)
 
-    maxTaxedSales, qualifiedContrabutionValue, minHSACash = specialRules()
+    maxTaxedSales, qualifiedContributionValue, minHSACash = specialRules()
 
 
 
@@ -28,12 +28,12 @@ def reallocate():
     ###################################
 
     #use cash on hand to fund 'Needed Qualified Contribution'
-    if cashOnHandValue >= qualifiedContrabutionValue:
-        cashOnHandValue -= qualifiedContrabutionValue
-        qualifiedContrabution = True
-        print 'Move $' + str(qualifiedContrabutionValue) + ' of cash/MMKT to Qualified account from Cash On Hand'
+    if cashOnHandValue >= qualifiedContributionValue:
+        cashOnHandValue -= qualifiedContributionValue
+        #qualifiedContrabution = True
+        print 'Move $' + str(qualifiedContributionValue) + ' of cash/MMKT to Qualified account from Cash On Hand'
     else:
-        qualifiedContrabution = False
+        #qualifiedContrabution = False
         print 'Not enough Cash On Hand to fund Qualified account(s)'
 
 
