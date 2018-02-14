@@ -1,0 +1,33 @@
+/* For now, every page will have a blue background color. */
+body {
+	background-color: rgba(0, 105, 255, 1);
+}
+
+.card {
+	border: 1px solid rgba(0, 105, 255, 1);
+	border-radius: 5px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+	background-color: hsl(216, 100%, 99%);
+	padding: 20px;
+}
+
+.notification {
+	color: rgb(244, 66, 66);
+}
+
+form .form-title {
+	font-size: 40px;
+}
+
+form > div {
+	margin-top: 15px;
+}
+
+.form-link {
+	font-size: 14px;
+}
+
+.logo {
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
