@@ -1,5 +1,5 @@
 from main_functions import desiredCategoryTotal, specialRules, accountsCopy, cashOnHand
-from reallocate_functions import reallocateRuleGroup, accountSales, interAccountTransfer
+from reallocate_functions import reallocateRuleGroup, accountSales, interAccountTransfer, fundAccount
 
 
 def reallocate():
@@ -20,31 +20,26 @@ def reallocate():
     CASH_CATEGORY = "Cash/MMKT"
     desiredCash = desiredCategoryTotal(CASH_CATEGORY)
 
-    maxTaxedSales, qualifiedContributionValue, minHSACash = specialRules()
+    maxTaxedSales, minHSACash, IRAContribution = specialRules()
 
 
 
     ### Cash on Hand: Special Rules ###
     ###################################
 
-    #use cash on hand to fund 'Needed Qualified Contribution'
-    if cashOnHandValue >= qualifiedContributionValue:
-        cashOnHandValue -= qualifiedContributionValue
-        #qualifiedContrabution = True
-        print 'Move $' + str(qualifiedContributionValue) + ' of cash/MMKT to Qualified account from Cash On Hand'
-    else:
-        #qualifiedContrabution = False
-        print 'Not enough Cash On Hand to fund Qualified account(s)'
-
-
+    #use cash on hand to fund IRA Contribution
+    accountType = 'Roth IRA'
+    fundAccount(reallocatedAccounts, accountType, IRAContribution)
 
 
 
     #if cash on hand is greater then desired cash, fund a NQ accountType
+    #Currently does not consider HSA cash min, or other cash sources
+    cashOnHandValue = cashOnHand()
     if cashOnHandValue > desiredCash:
         extraCash = cashOnHandValue - desiredCash
-        print 'Move $' + str(extraCash) + ' of cash/MMKT to NQ account from Cash On Hand'
-
+        accountType = 'Brokerage'
+        fundAccount(reallocatedAccounts, accountType, extraCash)
 
 
     ### Reallocate ###
@@ -65,10 +60,6 @@ def reallocate():
     RULE = "DEF"
     reallocateRuleGroup(reallocatedAccounts, RULE)
 
-
-    ###Cash On Hand###
-    RULE = "CASH"
-    reallocateRuleGroup(reallocatedAccounts, RULE)
 
 
     ###Non-Qualified accounts###

@@ -194,3 +194,14 @@ def listOfAccounts():
         if rowName.upper().find('TOTAL') == FALSE:
             accountsList.append(rowName)
     return accountsList
+
+def findAccountType(accounts, accountType):
+    '''
+    returns a list of accounts with the requested Type
+    '''
+    accountList = listOfAccounts()
+    accountTypeList = []
+    for account in accountList:
+        if accounts.getValue(account, 'Account Type') == accountType:
+            accountTypeList.append(account)
+    return accountTypeList
