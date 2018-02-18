@@ -165,13 +165,13 @@ def fundAccount(accounts, accountType, contributionValue):
     firstCashOnHandAccount = cashOnHandAccounts[FIRST_IN_LIST]
 
     accountsWithType = findAccountType(accounts, accountType)
-    firstAccountWithtype = accountsWithType[FIRST_IN_LIST]
+     = accountsWithType[FIRST_IN_LIST]
 
 
     if cashOnHandValue >= contributionValue:
         if accounts.getValue(firstCashOnHandAccount, 'Cash/MMKT') >= contributionValue:
-            interAccountTransfer(accounts, firstCashOnHandAccount, 'Cash/MMKT', firstAccountWithtype, 'Cash/MMKT', contributionValue)
-            print('Funded $' + str(contributionValue) + ' into ' + firstAccountWithtype)
+            interAccountTransfer(accounts, firstCashOnHandAccount, 'Cash/MMKT', , 'Cash/MMKT', contributionValue)
+            print('Funded $' + str(contributionValue) + ' into ' + )
         else:
             print('Not enough cash in first cash on hand account to cover contribution')
     else:
