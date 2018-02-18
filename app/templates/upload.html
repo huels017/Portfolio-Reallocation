@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+<div class="container">
+
+	<div class="row justify-content-center">
+		<div class="col-sm-6 card">
+			<form action="" method="post" enctype="multipart/form-data">
+				{{ form.hidden_tag() }}
+				<span class="form-title"><span class="fas fa-upload icon"></span>Upload Excel</span>
+				<div>
+					<div class="custom-file">
+					  {{ form.upload(class="custom-file-input", id="customFile") }}
+					  <label class="custom-file-label" for="customFile">Choose file</label>
+					</div>
+					{% for error in form.upload.errors %}
+						<span class="notification">{{ error }}</span>
+					{% endfor %}
+				</div>
+				<div>{{ form.submit(class="btn btn-outline-primary") }}</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}
