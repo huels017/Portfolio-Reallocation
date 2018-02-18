@@ -1,4 +1,4 @@
-from main_functions import desiredCategoryTotal, listOfCategories, findAccountsWithRule, categoryPriorityList, listOfAccounts
+from main_functions import desiredCategoryTotal, listOfCategories, findAccountsWithRule, categoryPriorityList, listOfAccounts, cashOnHand, findAccountType
 
 
 '''
@@ -131,7 +131,7 @@ def reallocateRuleGroup(accounts, rule):  #, SpecialRules):
         sales = 0
         sales += accountSales(accounts, account)
         accountBuys(accounts, account, sales)
-        
+
 
 
 
@@ -148,3 +148,31 @@ def interAccountTransfer(accounts, accountFrom, categoryFrom, accountTo, categor
     accounts.setValue(accountFrom, categoryFrom, (fromAccountValue - transferValue))
     accounts.setValue(accountTo, categoryTo, (toAccountValue + transferValue))
 
+
+
+def fundAccount(accounts, accountType, contributionValue):
+    '''
+    Determine if account funding is needed for special cases: IRA funding
+    Determine if CashOnHand is able to fund needed Contribution
+    Make account transfer is needed and able
+    Currently funds the first account in the list with the correct account Type
+    '''
+    FIRST_IN_LIST = 0
+    CASH_RULE = "CASH"
+
+    cashOnHandValue = cashOnHand()
+    cashOnHandAccounts = findAccountsWithRule(CASH_RULE)
+    firstCashOnHandAccount = cashOnHandAccounts[FIRST_IN_LIST]
+
+    accountsWithType = findAccountType(accounts, accountType)
+    firstAccountWithType = accountsWithType[FIRST_IN_LIST]
+
+
+    if cashOnHandValue >= contributionValue:
+        if accounts.getValue(firstCashOnHandAccount, 'Cash/MMKT') >= contributionValue:
+            interAccountTransfer(accounts, firstCashOnHandAccount, 'Cash/MMKT', firstAccountWithType, 'Cash/MMKT', contributionValue)
+            print('Funded $' + str(contributionValue) + ' into ' + firstAccountWithType)
+        else:
+            print('Not enough cash in first cash on hand account to cover contribution')
+    else:
+        print('Not enough cash on hand to cover contribution')
