@@ -60,8 +60,11 @@ def rulePerAccountType(accountType):
     if  str(accountType) == "nan":
         return "none"
 
-    if  accountType == "Cash":
+    elif  accountType == "Cash":
         return "CASH"
+
+    elif accountType == "H.S.A":
+        return "HSA"
 
     elif taxSheet.getValue(accountType, CHANGES_COLUMN) == "N":
         return "FIXED"

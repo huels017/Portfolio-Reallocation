@@ -1,10 +1,12 @@
-from main_functions import desiredCategoryTotal, listOfCategories, findAccountsWithRule, categoryPriorityList, listOfAccounts, cashOnHand, findAccountType
+from main_functions import desiredCategoryTotal, listOfCategories, findAccountsWithRule, categoryPriorityList, listOfAccounts, cashOnHand, findAccountType, specialRules
 
 
 '''
 Functions used in the reallocate function
 '''
 
+### Define Special Rule Variables ###
+maxTaxedSales, qualifiedContributionValue, minHSACash = specialRules()
 
 '''
 def categoryValuesList(accounts, category):
@@ -56,7 +58,19 @@ def desiredVsRealCategoryValue(accounts, category):
 
 
 
-def buySellCategories(accounts):
+def ruleGroupCategoryTotalizer(accounts, rule, category):
+    '''
+    Totalizes the value of a single category accross all accounts in a single rule groups
+    '''
+    accountsInRuleGroup = findAccountsWithRule(rule)
+    total = 0
+    for account in accountsInRuleGroup:
+        total += accounts.getValue(account, category)
+    return total
+
+
+
+def buySellCategories(accounts, rule):
     '''
     Returns two lists/dicts,
     1) list/dict of categories to buy and value needed to buy to reach desired allocation
@@ -70,6 +84,9 @@ def buySellCategories(accounts):
 
     for category in categoryList:
         sellValue = desiredVsRealCategoryValue(accounts, category)
+        #special rule: HSA Cash Minimum
+        if rule == 'HSA' and category == 'Cash/MMKT':
+            sellValue = ruleGroupCategoryTotalizer(accounts, 'HSA', 'Cash/MMKT') - minHSACash
         if sellValue > 0:
             sellCategories.append([category, sellValue])
         elif sellValue <0:
@@ -79,7 +96,7 @@ def buySellCategories(accounts):
 
 
 
-def accountSales(accounts, account):  #, rule, SpecialRules):
+def accountSales(accounts, account, taxedSales, rule):  #, rule, SpecialRules):
     '''
     Sells funds within given account based off buySellCategories
     ***Still needed***
@@ -87,26 +104,35 @@ def accountSales(accounts, account):  #, rule, SpecialRules):
         -special rule, stop sales if non-cash sales > max taxed sales, and Rule = "NQ"
         -special rule, if HSA account, stop cash/MMKT sale when cash/MMKT = HSA min
     '''
-    sellCategories, buyCategories = buySellCategories(accounts)
+    sellCategories, buyCategories = buySellCategories(accounts, rule)
     sales = 0
+    NAME = 0
+    SELL_VALUE = 1 #place in list
 
 
     for category in sellCategories:
-        NAME = 0
-        SELL_VALUE = 1
-        smallerSale = min(category[SELL_VALUE], accounts.getValue(account, category[NAME]))
+        maxSale = category[SELL_VALUE]
+        if rule == 'NQ':
+            maxSale = maxTaxedSales - taxedSales
+
+
+
+        smallerSale = min(category[SELL_VALUE], accounts.getValue(account, category[NAME]), maxSale)
         accountCategoryValue = accounts.getValue(account, category[NAME]) - smallerSale
         accounts.setValue(account, category[NAME], accountCategoryValue)
         sales += smallerSale
-    return sales
+        if category != 'Cash/MMKT' and category != 'Muni Bonds':
+            taxedSales += smallerSale
+
+    return sales, taxedSales
 
 
 
-def accountBuys(accounts, account, sales):
+def accountBuys(accounts, account, sales, rule):
     '''
     Buys funds within given account based off buySellCategories
     '''
-    sellCategories, buyCategories = buySellCategories(accounts)
+    sellCategories, buyCategories = buySellCategories(accounts, rule)
     #variable below this line shouldn't change, Should I make it into a fixed variable outside this function? on this .py file? or global? CATEGORY_LISTED_BY_PRIOTITY
     categoryListedByPriority = categoryPriorityList()
 
@@ -126,11 +152,16 @@ def reallocateRuleGroup(accounts, rule):  #, SpecialRules):
     Reallocates all accounts within one rule group by mondifying the accounts_copy DataContainer
     '''
     accountsInRuleGroup = findAccountsWithRule(rule)
+    taxedSales = 0
 
     for account in accountsInRuleGroup:
-        sales = 0
-        sales += accountSales(accounts, account)
-        accountBuys(accounts, account, sales)
+        sales, taxedSales = accountSales(accounts, account, taxedSales, rule)
+        accountBuys(accounts, account, sales, rule)
+        
+    if rule == 'NQ':
+        print('Total of $' + str(taxedSales) + ' in taxable sales')
+
+
 
 
 
