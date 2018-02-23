@@ -109,14 +109,10 @@ def accountSales(accounts, account, taxedSales, rule):  #, rule, SpecialRules):
     NAME = 0
     SELL_VALUE = 1 #place in list
 
-
     for category in sellCategories:
         maxSale = category[SELL_VALUE]
         if rule == 'NQ':
             maxSale = maxTaxedSales - taxedSales
-
-
-
         smallerSale = min(category[SELL_VALUE], accounts.getValue(account, category[NAME]), maxSale)
         accountCategoryValue = accounts.getValue(account, category[NAME]) - smallerSale
         accounts.setValue(account, category[NAME], accountCategoryValue)
