@@ -47,10 +47,12 @@ def reallocate():
 
     ### fund qualified account with cash on hand###
 
+    #Special rule: 'HSA Cash Min'
+    RULE = 'HSA'
+    reallocateRuleGroup(reallocatedAccounts, RULE)
 
 
     ###Exempt accounts###
-    #Special rule: 'HSA Cash Min'
     RULE = "EXEMPT"
     reallocateRuleGroup(reallocatedAccounts, RULE)
 
