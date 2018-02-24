@@ -1,9 +1,18 @@
-import excel_import
-import data_container as dc
+
  
-
-
 class AccountType:
+"""Output will be the account type
+
+Arguments: 
+
+name(string): name of account (ex. 401K, Cash, Roth IRA)
+tax_status(string): boolean (True/False), Qualified/Not Qualified
+is_deferred: boolean? "def" from excel file
+is_exempt: boolean? "exempt" from excel file
+changes_allowed: boolean Y/N
+
+
+"""
 
 	def __init__(self, name, tax_status, is_deferred, is_exempt, changes_allowed, limited):
 		self.name = name
@@ -14,8 +23,7 @@ class AccountType:
 		self.limited = limited
 
 
-#Do I need to use data from the data container to start populating each instance? Do you know how to do this?
 
-#Is this ultimately going to be incorporated into the main_functions.py folder?
+#Ultimately going to be incorporated in Account Class file
 
  
