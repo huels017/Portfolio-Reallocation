@@ -25,8 +25,7 @@ def initializeObjects(excelFileName):
 
     ACCOUNTS_SHEET_NAME = "Accounts"
     currentAccounts = dc.DataContainer(dataframes[ACCOUNTS_SHEET_NAME]) # Create a DataContainer for the 'accounts' worksheet
-    #reallocatedAccounts= dc.DataContainer(dataframes[ACCOUNTS_SHEET_NAME]) #Create a copy of the orignial data to make reallocation changes to
-
+    
     TAX_SHEET = "Tax_Status"
     taxSheet = dc.DataContainer(dataframes[TAX_SHEET]) # Create a DataContainer for the 'Tax_Status' worksheet
 
