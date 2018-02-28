@@ -20,11 +20,11 @@ def create_app(config_class=Config):
     # Register static assets
 
     assets = Environment(app)
-    css = Bundle('css/lib/bootstrap/bootstrap.min.css',
+    css = Bundle('css/vendor/bootstrap/bootstrap.min.css',
     	'css/main.css',
     	output='gen/styles.css')
     js = Bundle('js/fontawesome-all.js', output='gen/scripts.js')
-    # NOTE: if you need to load 'js/lib/bootstrap/bootstrap.bundle.min.js', you may need
+    # NOTE: if you need to load 'js/vendor/bootstrap/bootstrap.bundle.min.js', you may need
     # to load jQuery first
 
     assets.register('all_css', css)
