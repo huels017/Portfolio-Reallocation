@@ -1,6 +1,7 @@
 import excel_import
 import data_container as dc
 import account as ac
+import funding_request as fr
 
 '''
 Functions to initialize all objects.
@@ -24,6 +25,9 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
 
     ACCOUNTS_SHEET_NAME = "Accounts"
     currentAccounts = dc.DataContainer(dataframes[ACCOUNTS_SHEET_NAME]) # Create a DataContainer for the 'accounts' worksheet
+
+    FUNDING_REQUEST_SHEET_NAME = "Fund_Accounts"
+    fundingRequestSheet = dc.DataContainer(dataframes[FUNDING_REQUEST_SHEET_NAME])
 
     TAX_SHEET = "Tax_Status"
     taxSheet = dc.DataContainer(dataframes[TAX_SHEET]) # Create a DataContainer for the 'Tax_Status' worksheet
@@ -50,4 +54,15 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
             assets[category] = currentAccounts.getValue(account, category)
         accounts[account] = ac.Account(owner, institution, account_type, assets)
 
-    return accounts
+
+
+    #### Create a List of Funding Request Objects ###
+    #################################################
+    fundingRequestList = []
+
+    for row in fundingRequestSheet.getRowNames():
+        fundingRequestList.append(fr.FundingRequest(fundingRequestSheet.getValue(row, 'Account to Fund'), fundingRequestSheet.getValue(row, 'Amount to Fund')))
+
+
+
+    return accounts, fundingRequestList
