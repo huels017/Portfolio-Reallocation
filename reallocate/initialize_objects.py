@@ -58,11 +58,11 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
 
     #### Create a List of Funding Request Objects ###
     #################################################
-    fundingRequestList = []
+    fundingRequest = []
 
     for row in fundingRequestSheet.getRowNames():
-        fundingRequestList.append(fr.FundingRequest(fundingRequestSheet.getValue(row, 'Account to Fund'), fundingRequestSheet.getValue(row, 'Amount to Fund')))
+        fundingRequest.append(fr.FundingRequest(fundingRequestSheet.getValue(row, 'Account to Fund'), fundingRequestSheet.getValue(row, 'Amount to Fund')))
 
 
 
-    return accounts, fundingRequestList
+    return accounts, fundingRequest
