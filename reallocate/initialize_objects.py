@@ -74,8 +74,6 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
 
 
 
-
-
     #### Create a List of Funding Request Dictionaries ###
     #################################################
     fundingRequests = []

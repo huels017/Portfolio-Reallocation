@@ -16,7 +16,6 @@ def fulfillFundingRequests(fundAccounts, fundingRequests, desiredAllocation):
     firstCashAccount = 0
     condenseAccounts(cashOnHandAccounts[firstCashAccount], cashOnHandAccounts[firstCashAccount + 1:])
 
-
     #fullfill funding requests
     requestNumber = 1
     for request in fundingRequests:
@@ -24,6 +23,7 @@ def fulfillFundingRequests(fundAccounts, fundingRequests, desiredAllocation):
         minimumCashPerRules = 0
         for account in fundAccounts:
             minimumCashPerRules += min(fundAccounts[account].minimum_category_value("Cash/MMKT"), fundAccounts[account].get_category_value("Cash/MMKT"))
+
         totalCash = accountsTotal(fundAccounts, cashOnHandAccounts) + minimumCashPerRules
         excessCash = totalCash - desiredCashValue
         requestedValue = request[requestNumber]['funding_value']
@@ -34,4 +34,5 @@ def fulfillFundingRequests(fundAccounts, fundingRequests, desiredAllocation):
 
         elif requestedValue > excessCash:
             print('Not enough funds for ' + str(request[requestNumber]['account_name']) + ' (' + str(fundAccounts[request[requestNumber]['account_name']].account_type) + ') account funding request')
+
         requestNumber += 1
