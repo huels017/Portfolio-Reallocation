@@ -4,9 +4,9 @@
 
 ## Step 1: Fund Accounts
 	
-Accounts to be funded will be funded with cash from ‘Cash on Hand’ accounts. The accounts will be funded until cash in ‘Cash on Hand’ + Minimum cash in other accounts (‘HSA’ Cash min, 3% of CRIA, etc)  reaches the desirable Cash allocation. This many mean not all accounts are funded, in which a message should be added to the report stating that there was not enough cash on hand to fund all accounts. 
+   Accounts to be funded will be funded with cash from ‘Cash on Hand’ accounts. The accounts will be funded until cash in ‘Cash on Hand’ + Minimum cash in other accounts (‘HSA’ Cash min, 3% of CRIA, etc)  reaches the desirable Cash allocation. This many mean not all accounts are funded, in which a message should be added to the report stating that there was not enough cash on hand to fund all accounts. 
 	
-There will be an option to fund ‘excess cash’ into the brokerage account. ‘Excess cash’ is the difference between the desired allocation of cash and what is still in the ‘Cash on Hand’ account + Minimum cash in other accounts. All other sources of ‘Cash/MMKT’ will later be reallocated into other categories. 
+   There will be an option to fund ‘excess cash’ into the brokerage account. ‘Excess cash’ is the difference between the desired allocation of cash and what is still in the ‘Cash on Hand’ account + Minimum cash in other accounts. All other sources of ‘Cash/MMKT’ will later be reallocated into other categories. 
 
 The order of funding each account is based on user input. 
 
@@ -36,7 +36,7 @@ Brokerage
 
 ## Step 2: Reallocate Accounts
 
-Accounts will be reallocated in order of their tax statues. First Exempt & Deffered(Exp&Def) accounts, then Deffered Only(Def) accounts, and last Non-Qualified accounts. Fixed accounts will not be changed. 
+   Accounts will be reallocated in order of their tax statues. First Exempt & Deffered(Exp&Def) accounts, then Deffered Only(Def) accounts, and last Non-Qualified accounts. Fixed accounts will not be changed. 
 
 ### Rules Types: 
 #### Minimum Category Value:
@@ -84,7 +84,7 @@ Accounts will be reallocated in order of their tax statues. First Exempt & Deffe
 
 	
 ### Additional Functionality:
-It is yet to be determined if there is a need to implement a desired allocation for each tax group, instead of a single overall allocation. This would also necessitate the creation of an allocation calculator in order to input allocations for each rule group and get the overall allocation as an output. This will help in the determination of the desired allocations per individual group. 
+   It is yet to be determined if there is a need to implement a desired allocation for each tax group, instead of a single overall allocation. This would also necessitate the creation of an allocation calculator in order to input allocations for each rule group and get the overall allocation as an output. This will help in the determination of the desired allocations per individual group. 
 
 
 
@@ -98,8 +98,8 @@ It is yet to be determined if there is a need to implement a desired allocation 
 
 ## Step 3: Future Portfolio Projections
 
-The future state of the portfolio needs to be estimated. This will be done by taking in a estimated yearly return for the overall portfolio, the clients savings rate, and information of financial products that client owns (annuities, life insurance, ext.) 
+   The future state of the portfolio needs to be estimated. This will be done by taking in a estimated yearly return for the overall portfolio, the clients savings rate, and information of financial products that client owns (annuities, life insurance, ext.) 
 
-The output should be flexible enough to enter in a few different time ranges and scenarios. For example, if 10 year, 20 year, and 20 year end of life were entered. The output should be the predicted portfolio for 10 years into the future, 20 years into the future, and 20 years into the future with the event of the client’s death. 
+   The output should be flexible enough to enter in a few different time ranges and scenarios. For example, if 10 year, 20 year, and 20 year end of life were entered. The output should be the predicted portfolio for 10 years into the future, 20 years into the future, and 20 years into the future with the event of the client’s death. 
 
-The portfolio overall desired allocation should be variable through time. As, the client ages the portfolio allocation should be able to be more conservative per the users input. (not predetermined by the software)
+   The portfolio overall desired allocation should be variable through time. As, the client ages the portfolio allocation should be able to be more conservative per the users input. (not predetermined by the software)
