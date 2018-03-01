@@ -2,8 +2,12 @@
 
 
 def accountsTotal(accounts, accountsList):
-    '''
-    Returns the total value of accounts in accountsList
+    '''Returns the total value of accounts in accountsList
+
+    Args:
+        accounts (dict): A dictionary of account objects representing entire portfolio
+        accountsList (list): A list of accounts that will be included in the total value
+        totalAccountsValue (int): The sum of the total value of all accounts in accountsList
     '''
     totalAccountsValue = 0
     for account in accountsList:
@@ -13,8 +17,12 @@ def accountsTotal(accounts, accountsList):
 
 
 def findAccountsWithType(accounts, accountType):
-    '''
-    Returns account names with a desired account type
+    '''Returns account names with a desired account type
+
+    Args:
+        accounts (dict): A dictionary of account objects representing entire portfolio
+        accountType (str): Represents the type of the account
+        accountsWithType (list): A list of accounts in which type == accountType
     '''
     accountsWithType = []
 
@@ -25,22 +33,43 @@ def findAccountsWithType(accounts, accountType):
 
 
 
-def fundAccount(accounts, accountToFund, accountToWithdraw, fundAmount):
+def fundAccount(accountToFund, accountToWithdraw, fundAmount):
+    '''Moves funds from accountToWithdraw to accountToFund
+
+    Args:
+        accountToFund (object): An Account object which should be funded
+        accountToWithdraw (object): An Account object which should be withdrawn
+        fundAmount (int): The value that should be moved between accounts
     '''
-    Moves funds from accountToWithdraw to accountToFund
-    '''
-    accounts[accountToFund].fund_account('Cash/MMKT', fundAmount)
-    accounts[accountToWithdraw].withdraw_account('Cash/MMKT', fundAmount)
+    try:
+        accountToWithdraw.withdraw_account('Cash/MMKT', fundAmount)
+    except:
+        print('Failed to withdraw account in fundAccount function')
+
+    try:
+        accountToFund.fund_account('Cash/MMKT', fundAmount)
+    except:
+        print('Failed to fund account in fundAccount function')
 
 
 
-
-def condenseAccounts(accounts, accountToFill, accountsToEmpty):
+def condenseAccounts(accountToFill, accountsToEmpty):
     ''' Moves all funds from multiple accounts into one accountType as cash
+
+    Args:
+        accountToFill (object): An Account object that will receive all funds from accountsToEmpty
+        accountsToEmpty (list): A list of Account objects which will all be liquidated into accountToFill
     '''
-
     for account in accountsToEmpty:
-        for category in accounts[account].assets:
+        for category in account.assets:
+            categoryValueToMove = account.get_category_value(category)
 
-            accounts[accountToFill].fund_account('Cash/MMKT', accounts[account].get_category_value(category))
-            accounts[account].withdraw_account(category, accounts[account].get_category_value(category))
+            try:
+                account.withdraw_account(category, categoryValueToMove)
+            except:
+                print('Failed to withdraw account in condenseAccounts function')
+
+            try:
+                accountToFill.fund_account('Cash/MMKT', categoryValueToMove)
+            except:
+                print('Failed to fund account in condenseAccounts function')
