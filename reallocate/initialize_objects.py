@@ -36,7 +36,7 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
     specialRulesSheet = dc.DataContainer(dataframes[SPECIAL_RULES_SHEET])
 
     DESIRED_ALLOCATION_SHEET_NAME = "Desired_Allocation"
-    desiredAllocation = dc.DataContainer(dataframes[DESIRED_ALLOCATION_SHEET_NAME])
+    desiredAllocationsheet = dc.DataContainer(dataframes[DESIRED_ALLOCATION_SHEET_NAME])
 
 
 
@@ -46,6 +46,8 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
     accounts = {}
 
     for account in currentAccounts.getRowNames():
+        if account == 'Total (Portfolio)':
+            continue
         owner = currentAccounts.getValue(account, 'Owner')
         institution = currentAccounts.getValue(account, 'Institution')
         account_type = currentAccounts.getValue(account, 'Account Type')
@@ -65,4 +67,13 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
 
 
 
-    return accounts, fundingRequest
+    #### Create a Dictionary of Desired Allocations per Category ####
+    #################################################################
+    desiredAllocation = {}
+
+    for category in categoryList:
+        desiredAllocation[category] = desiredAllocationsheet.getValue(category, 'Desired Percent')
+
+
+
+    return accounts, fundingRequest, desiredAllocation
