@@ -28,7 +28,7 @@ def findAccountsWithType(accounts, accountType):
 
     for account in accounts:
         if accounts[account].account_type == accountType:
-            accountsWithType.append(account)
+            accountsWithType.append(accounts[account])
     return accountsWithType
 
 
@@ -61,6 +61,7 @@ def condenseAccounts(accountToFill, accountsToEmpty):
         accountsToEmpty (list): A list of Account objects which will all be liquidated into accountToFill
     '''
     for account in accountsToEmpty:
+
         for category in account.assets:
             categoryValueToMove = account.get_category_value(category)
 
