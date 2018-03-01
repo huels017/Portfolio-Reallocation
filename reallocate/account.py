@@ -13,8 +13,8 @@ class Account(object):
 			account_type (string): The account type (401(k), cash, SIMPLE IRA, etc.)
 			assets (dict): A dictionary of asset classes and their associated values.
 				For example: assets = {'Cash/MMKT': 500,'Tax Bonds': 3703.27,'Sm/Mid Blend': 136.84}
-            rules (dict): A dictionary of rules
-			    For example: rules = {'Minimum Value': {'category': 'Cash/MMKT', 'value': 5000}}
+                        rules (dict): A dictionary of rules
+			        For example: rules = {'Minimum Value': {'category': 'Cash/MMKT', 'value': 5000}}
 		"""
 
 		self.owner = owner
