@@ -7,13 +7,13 @@ from funding import fulfillFundingRequests
 ###Initialize Accounts###
 assets_list_start_column = 3 # categories start at the 4th column in excel template
 assets_list_end_column = -1 #don't include the 'total' column
-currentAccounts, fundingRequest, desiredAllocation = initializeObjects('../Allocation_Template.xlsx', assets_list_start_column, assets_list_end_column)
+currentAccounts, fundingRequests, desiredAllocation = initializeObjects('../Allocation_Template.xlsx', assets_list_start_column, assets_list_end_column)
 
 
 
 ###Fund Accounts###
 fundAccounts = copy.deepcopy(currentAccounts)
-fulfillFundingRequests(fundAccounts, fundingRequest, desiredAllocation)
+fulfillFundingRequests(fundAccounts, fundingRequests, desiredAllocation)
 
 
 ###Reallocate Accounts###

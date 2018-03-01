@@ -60,7 +60,7 @@ class Account(object):
 		self.assets[asset_category] -= value
 
 
-	def minimum_Category_Value(self, category):
+	def minimum_category_value(self, category):
 		"""Returns the minimum value for a category
 		"""
 		minimumValue = 0

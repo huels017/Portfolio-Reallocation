@@ -1,7 +1,7 @@
 from utilities import accountsTotal, findAccountsWithType, fundAccount, condenseAccounts
 
 
-def fulfillFundingRequests(fundAccounts, fundingRequest, desiredAllocation):
+def fulfillFundingRequests(fundAccounts, fundingRequests, desiredAllocation):
     '''
     Uses cash from cash on hand to fulfill desired funding requests
     '''
@@ -14,18 +14,20 @@ def fulfillFundingRequests(fundAccounts, fundingRequest, desiredAllocation):
 
 
     #fullfill funding requests
-    for request in fundingRequest:
+    requestNumber = 1
+    for request in fundingRequests:
 
         minimumCashPerRules = 0
         for account in fundAccounts:
-            minimumCashPerRules += fundAccounts[account].minimum_Category_Value("Cash/MMKT")
+            minimumCashPerRules += min(fundAccounts[account].minimum_category_value("Cash/MMKT"), fundAccounts[account].get_category_value("Cash/MMKT"))
         totalCash = accountsTotal(fundAccounts, cashOnHandAccounts) + minimumCashPerRules
         excessCash = totalCash - desiredCashValue
-        requestedValue = request.fundingValue
-        fundAccount(fundAccounts, request.account, cashOnHandAccounts[0], min(requestedValue, excessCash))
+        requestedValue = request[requestNumber]['funding_value']
+        fundAccount(fundAccounts, request[requestNumber]['account_name'], cashOnHandAccounts[0], min(requestedValue, excessCash))
 
-        if fundingRequest[-1] == request and requestedValue > excessCash:
-            print('Not enough funds for last funding request: ' + str(request.account) + ' (' + str(fundAccounts[request.account].account_type) + ') account')
+        if fundingRequests[-1] == request and requestedValue > excessCash:
+            print('Not enough funds for last funding request: ' + str(request[requestNumber]['account_name']) + ' (' + str(fundAccounts[request[requestNumber]['account_name']].account_type) + ') account')
 
         elif requestedValue > excessCash:
-            print('Not enough funds for ' + str(request.account) + ' (' + str(fundAccounts[request.account].account_type) + ') account funding request')
+            print('Not enough funds for ' + str(request[requestNumber]['account_name']) + ' (' + str(fundAccounts[request[requestNumber]['account_name']].account_type) + ') account funding request')
+        requestNumber += 1
