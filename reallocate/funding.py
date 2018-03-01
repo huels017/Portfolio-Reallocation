@@ -15,7 +15,11 @@ def fulfillFundingRequests(fundAccounts, fundingRequest, desiredAllocation):
 
     #fullfill funding requests
     for request in fundingRequest:
-        totalCash = accountsTotal(fundAccounts, cashOnHandAccounts)#need a way to scan through accounts minimun cash value using rules class
+
+        minimumCashPerRules = 0
+        for account in fundAccounts:
+            minimumCashPerRules += fundAccounts[account].minimum_Category_Value("Cash/MMKT")
+        totalCash = accountsTotal(fundAccounts, cashOnHandAccounts) + minimumCashPerRules
         excessCash = totalCash - desiredCashValue
         requestedValue = request.fundingValue
         fundAccount(fundAccounts, request.account, cashOnHandAccounts[0], min(requestedValue, excessCash))

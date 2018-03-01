@@ -4,7 +4,7 @@ class Account(object):
 	""" Represents an account
 	"""
 
-	def __init__(self, owner, institution, account_type, assets):
+	def __init__(self, owner, institution, account_type, assets, rules):
 		""" Create an account
 
 		Args:
@@ -19,6 +19,7 @@ class Account(object):
 		self.institution = institution
 		self.account_type = account_type
 		self.assets = copy.deepcopy(assets)
+		self.rules = rules
 
 	def get_total_value(self):
 		""" Gets the total value of all assets in the account
@@ -42,6 +43,8 @@ class Account(object):
 
 		self.assets[asset_category] += value
 
+
+
 	def withdraw_account(self, asset_category, value):
 		""" Subtract funds from the specified asset category within the account.
 
@@ -53,3 +56,17 @@ class Account(object):
 			raise ValueError('Insufficient funds')
 
 		self.assets[asset_category] -= value
+
+
+	def minimum_Category_Value(self, category):
+		"""Returns the minimum value for a category
+		"""
+		minimumValue = 0
+
+		if 'Minimum Value' in self.rules:
+			minimumValue += self.rules['Minimum Value']['value']
+
+		elif 'Minimum Percent' in self.rules:
+			minimumValue += self.rules['Minimum Percent']['value'] * self.get_total_value()
+
+		return minimumValue

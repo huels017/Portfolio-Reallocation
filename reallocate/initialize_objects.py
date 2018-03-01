@@ -29,14 +29,30 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
     FUNDING_REQUEST_SHEET_NAME = "Fund_Accounts"
     fundingRequestSheet = dc.DataContainer(dataframes[FUNDING_REQUEST_SHEET_NAME])
 
-    TAX_SHEET = "Tax_Status"
-    taxSheet = dc.DataContainer(dataframes[TAX_SHEET]) # Create a DataContainer for the 'Tax_Status' worksheet
+    ACCOUNT_MIN_MAX_SHEET_NAME = "Account_Min_Max"
+    accountMinMax = dc.DataContainer(dataframes[ACCOUNT_MIN_MAX_SHEET_NAME])
 
-    SPECIAL_RULES_SHEET = "Other_inputs"
-    specialRulesSheet = dc.DataContainer(dataframes[SPECIAL_RULES_SHEET])
+    #TAX_SHEET = "Tax_Status"
+    #taxSheet = dc.DataContainer(dataframes[TAX_SHEET]) # Create a DataContainer for the 'Tax_Status' worksheet
+
+    #SPECIAL_RULES_SHEET = "Other_inputs"
+    #specialRulesSheet = dc.DataContainer(dataframes[SPECIAL_RULES_SHEET])
 
     DESIRED_ALLOCATION_SHEET_NAME = "Desired_Allocation"
     desiredAllocationsheet = dc.DataContainer(dataframes[DESIRED_ALLOCATION_SHEET_NAME])
+
+
+
+    #### Create a dictionary of Rules ####
+    ######################################
+    rules = {}
+    for account in currentAccounts.getRowNames():
+        rules[account] = {}
+
+    for account in accountMinMax.getRowNames():
+        for rule in accountMinMax.getHeaderNames()[1:5]:
+            if str(accountMinMax.getValue(account, rule)) != 'nan':
+                rules[account][rule] = {'category': accountMinMax.getValue(account, accountMinMax.getHeaderNames()[0]), 'value': accountMinMax.getValue(account, rule)}
 
 
 
@@ -54,7 +70,9 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
         assets = {}
         for category in categoryList:
             assets[category] = currentAccounts.getValue(account, category)
-        accounts[account] = ac.Account(owner, institution, account_type, assets)
+        accounts[account] = ac.Account(owner, institution, account_type, assets, rules[account])
+
+
 
 
 
