@@ -84,7 +84,7 @@ Brokerage
 
 	
 ### Additional Functionality:
-   It is yet to be determined if there is a need to implement a desired allocation for each tax group, instead of a single overall allocation. This would also necessitate the creation of an allocation calculator in order to input allocations for each rule group and get the overall allocation as an output. This will help in the determination of the desired allocations per individual group. 
+   It is yet to be determined if there is a need to implement a desired allocation for each tax group, instead of a single overall allocation. This would also necessitate the creation of an allocation calculator in order to input allocations for each tax group and get the overall allocation as an output. This will help in the determination of the desired allocations per individual group. 
 
 
 
