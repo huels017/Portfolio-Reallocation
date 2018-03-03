@@ -1,5 +1,7 @@
 
 
+#### General Functions ####
+###########################
 
 def accountsTotal(accounts, accountsList):
     '''Returns the total value of accounts in accountsList
@@ -32,6 +34,8 @@ def findAccountsWithType(accounts, accountType):
     return accountsWithType
 
 
+#### Funding Accounts ####
+##########################
 
 def fundAccount(accountToFund, accountToWithdraw, fundAmount):
     '''Moves funds from accountToWithdraw to accountToFund
@@ -74,3 +78,29 @@ def condenseAccounts(accountToFill, accountsToEmpty):
                 accountToFill.fund_account('Cash/MMKT', categoryValueToMove)
             except:
                 print('Failed to fund account in condenseAccounts function')
+
+
+
+#### Reallocate Functions ####
+##############################
+
+
+def differenceCurrentDesiredAccounts(reallocateAccounts, desiredAllocation):
+    '''Returns two lists. One of values per catogeries to sell. One of values per cateogry to buy.
+
+    Args:
+        fundAccount (dict): A dictionary of account objects representing entire portfolio
+        desiredAllocation (dict): A dictionary of accounts with the desried percent allocation.
+    '''
+
+
+
+
+def findRules(reallocateAccounts, buyCategories, sellCategories):
+    '''Does this need to be called by function above?
+    '''
+
+
+def sellAccount(account, sell, dampening, maxTaxedSales):
+
+def buyAccount(account, buy, totalSales):
