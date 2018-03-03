@@ -9,6 +9,14 @@ Functions to initialize all objects.
 def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_column):
     '''
     Returns all objects needed for reallocation program
+    
+    Args: 
+        excelFileName (str): Location and name of excel file with portfolio account data.
+        assets_list_column (int): Location of where the categories column starts. 
+        assets_list_end_column (int): Location of where the categories column ends. 
+        account (dict): A dictionary of account objects representing entire portfolio
+        fundingRequests (list): A list of dictionaries. Each dictionary represents a fundingRequest.
+        desiredAllocation (dict): A dictionary of accounts with the desried percent allocation.
     '''
 
     #### Import and parse the Excel file: ####
