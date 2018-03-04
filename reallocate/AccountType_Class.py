@@ -1,15 +1,15 @@
 
  
 class AccountType:
-"""Output will be the account type
+"""Class represents characteristics of AccountType
 
 Arguments: 
 
-name(string): name of account (ex. 401K, Cash, Roth IRA)
-tax_status(string): boolean (True/False), Qualified/Not Qualified
-is_deferred: boolean? "def" from excel file
-is_exempt: boolean? "exempt" from excel file
-changes_allowed: boolean Y/N
+	name(string): name of account (ex. 401K, Cash, Roth IRA)
+	is_qualified(bool): whether account tax status is "qualified" or "not qualified"
+	is_deferred(bool): whether account tax status is "deferred"
+	is_exempt(bool): definition?
+	changes_allowed(bool): definition?
 
 
 """
@@ -24,6 +24,6 @@ changes_allowed: boolean Y/N
 
 
 
-#Ultimately going to be incorporated in Account Class file
+
 
  
