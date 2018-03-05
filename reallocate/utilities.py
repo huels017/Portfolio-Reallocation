@@ -77,3 +77,17 @@ def condenseAccounts(accountToFill, accountsToEmpty):
                 accountToFill.fund_account('Cash/MMKT', categoryValueToMove)
             except:
                 print('Failed to fund account in condenseAccounts function')
+
+
+#### Reallocation Functions ####
+
+
+def sellFirstCategories(reallocateAccounts, categoryRules):
+    ''' Scans the categoryRules for any category(s) that is prioritized to sell first
+
+    Args:
+        reallocateAccounts (dict): A dictionary of account objects representing entire portfolio
+        categoryRules (dict): A dictionary of rules for categories.
+    '''
+    for rule in categoryRules:
+        print(rule)

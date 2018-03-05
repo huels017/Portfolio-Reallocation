@@ -1,4 +1,5 @@
 from reallocate import reallocate
+from reallocate2 import reallocate2
 from export import exportToExcel
 from initialize_objects import initializeObjects
 import copy
@@ -17,8 +18,10 @@ fulfillFundingRequests(fundAccounts, fundingRequests, desiredAllocation)
 
 ###Reallocate Accounts###
 reallocateAccounts = copy.deepcopy(fundAccounts)
+taxGroups = ["EXEMPT", "DEF", "NQ"]
+reallocate2(reallocateAccounts, desiredAllocation, categoryRules, taxGroups)
 
-reallocatedAccounts = reallocate()  #old version of funding and reallcation, Will be removed after new procedure is complete
+#reallocatedAccounts = reallocate()  #old version of funding and reallcation, Will be removed after new procedure is complete
 
 
 
@@ -28,4 +31,5 @@ futureAccounts = copy.deepcopy(reallocateAccounts)
 
 
 ###Output Results###
-exportToExcel(reallocatedAccounts) #old version of export, Will be removed after new procedure is complete
+#exportToExcel(reallocatedAccounts) #old version of export, Will be removed after new procedure is complete
+print('End of Program Reached')
