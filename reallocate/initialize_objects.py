@@ -115,4 +115,4 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
 
 
 
-    return accounts, fundingRequests, desiredAllocation
+    return accounts, fundingRequests, desiredAllocation, categoryRules
