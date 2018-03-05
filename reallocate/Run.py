@@ -7,8 +7,7 @@ from funding import fulfillFundingRequests
 ###Initialize Accounts###
 assets_list_start_column = 3 # categories start at the 4th column in excel template
 assets_list_end_column = -1 #don't include the 'total' column
-currentAccounts, fundingRequests, desiredAllocation = initializeObjects('test_funding2.xlsx', assets_list_start_column, assets_list_end_column)
-#../Allocation_Template.xlsx  test_funding.xlsx
+currentAccounts, fundingRequests, desiredAllocation = initializeObjects('../Allocation_Template.xlsx', assets_list_start_column, assets_list_end_column)
 
 
 ###Fund Accounts###

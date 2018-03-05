@@ -6,12 +6,15 @@ def accountsTotal(accounts, accountsList):
 
     Args:
         accounts (dict): A dictionary of account objects representing entire portfolio
-        accountsList (list): A list of accounts that will be included in the total value
+        accountsList (list) or (dict): A list or dict of accounts that will be included in the total value
         totalAccountsValue (int): The sum of the total value of all accounts in accountsList
     '''
     totalAccountsValue = 0
     for account in accountsList:
-        totalAccountsValue += accounts[account].get_total_value()
+        if str(type(account)) == "<type 'unicode'>":
+            totalAccountsValue += accounts[account].get_total_value()
+        else:
+            totalAccountsValue += account.get_total_value()
     return totalAccountsValue
 
 

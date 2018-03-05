@@ -27,7 +27,10 @@ def fulfillFundingRequests(fundAccounts, fundingRequests, desiredAllocation):
         totalCash = accountsTotal(fundAccounts, cashOnHandAccounts) + minimumCashPerRules
         excessCash = totalCash - desiredCashValue
         requestedValue = request[requestNumber]['funding_value']
-        fundAccount(fundAccounts[request[requestNumber]['account_name']], fundAccounts[cashOnHandAccounts[0]], min(requestedValue, excessCash))
+        accountToFund = fundAccounts[request[requestNumber]['account_name']]
+        accountToWithdraw = cashOnHandAccounts[0]
+        fundAmount = min(requestedValue, excessCash)
+        fundAccount(accountToFund, accountToWithdraw, fundAmount)
 
         if fundingRequests[-1] == request and requestedValue > excessCash:
             print('Not enough funds for last funding request: ' + str(request[requestNumber]['account_name']) + ' (' + str(fundAccounts[request[requestNumber]['account_name']].account_type) + ') account')
