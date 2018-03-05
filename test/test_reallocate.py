@@ -1,8 +1,8 @@
 import unittest
-#from reallocate.utilities import sellFirstCategories
-#from reallocate.initialize_objects import initializeObjects
-from utilities import sellFirstCategories
-from initialize_objects import initializeObjects
+from reallocate.utilities import sellFirstCategories
+from reallocate.initialize_objects import initializeObjects
+#from utilities import sellFirstCategories
+#from initialize_objects import initializeObjects
 
 class TestReallocateFunctions(unittest.TestCase):
 
