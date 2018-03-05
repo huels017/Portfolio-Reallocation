@@ -22,5 +22,4 @@ def reallocate2(reallocateAccounts, desiredAllocation, categoryRules, taxGroups)
 
     #### Reallocate Accounts ####
 
-    #for group in taxGroups:
-    #    print(group)
+
