@@ -15,16 +15,29 @@ class TestReallocateFunctions(unittest.TestCase):
         self.categoryRules = categoryRules
 
 
+    def test_sell_first_category_sales(self):
+        taxedSalesLeft = 5000
+        sellFirstCategories(self.accounts, self.categoryRules, taxedSalesLeft)
+        self.assertEqual(self.accounts['A10'].get_category_value('Balanced'), 0)
+
+
+    def test_sell_first_category_cash_funding(self):
+        taxedSalesLeft = 5000
+        sellFirstCategories(self.accounts, self.categoryRules, taxedSalesLeft)
+        self.assertEqual(self.accounts['A10'].get_category_value('Cash/MMKT'), 15000)
+
 
     def test_sell_first_category_taxed_sales(self):
         taxedSalesLeft = 5000
         sellFirstCategories(self.accounts, self.categoryRules, taxedSalesLeft)
         self.assertEqual(taxedSalesLeft, 0)
 
-    def test_sell_first_category_cash_funding(self):
-        taxedSalesLeft = 5000
+
+    def test_sell_first_category_taxed_sales_left(self):
+        taxedSalesLeft = 6000
         sellFirstCategories(self.accounts, self.categoryRules, taxedSalesLeft)
-        self.assertEqual(self.accounts['A10'].get_category_value('Cash/MMKT'), 15000)
+        self.assertEqual(self.accounts['A13'].get_category_value('Balanced'), 4000)
+
         #scans through all accounts in group for category with 'sell first' rule, if present sell all of that category.
         #Balanced as 'sell first' and counts as 50/50 tax bonds/ large cap blend( all category diffs go to 0, balanced catorgy = balanced value  )
 
