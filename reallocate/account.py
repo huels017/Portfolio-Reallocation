@@ -4,7 +4,7 @@ class Account(object):
 	""" Represents an account
 	"""
 
-	def __init__(self, owner, institution, account_type, assets, rules):
+	def __init__(self, owner, institution, account_type, assets, rules, accountType):
 		""" Create an account
 
 		Args:
@@ -22,6 +22,8 @@ class Account(object):
 		self.account_type = account_type
 		self.assets = copy.deepcopy(assets)
 		self.rules = rules
+		self.accountType = accountType
+
 
 	def get_total_value(self):
 		""" Gets the total value of all assets in the account

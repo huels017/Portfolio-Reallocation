@@ -82,12 +82,43 @@ def condenseAccounts(accountToFill, accountsToEmpty):
 #### Reallocation Functions ####
 
 
-def sellFirstCategories(reallocateAccounts, categoryRules):
+def sellFirstCategories(reallocateAccounts, categoryRules, taxedSalesLeft):
     ''' Scans the categoryRules for any category(s) that is prioritized to sell first
 
     Args:
         reallocateAccounts (dict): A dictionary of account objects representing entire portfolio
         categoryRules (dict): A dictionary of rules for categories.
     '''
+
     for rule in categoryRules:
-        print(rule)
+        if categoryRules[rule]['rule'] == 'Sell First':
+            for account in reallocateAccounts:
+                #need accountType merged before this can function properly
+                if reallocateAccounts[account].accountType == 'Fixed':
+                    continue
+                elif reallocateAccounts[account].accountType == 'NQ':
+                    transferValue = min(taxedSalesLeft), reallocateAccounts[account].get_category_value(categoryRules[rule]['category'])
+                    taxedSalesLeft -= transferValue
+                else:
+                    transferValue = reallocateAccounts[account].get_category_value(categoryRules[rule]['category'])
+
+                try:
+                    reallocateAccounts[account].withdraw_account(categoryRules[rule]['category'], transferValue)
+                except:
+                    print('Failed to withdraw account in fundAccount function')
+
+                try:
+                    reallocateAccounts[account].fund_account('Cash/MMKT', transferValue)
+                except:
+                    print('Failed to fund account in fundAccount function')
+
+
+
+
+
+
+
+
+
+
+        #

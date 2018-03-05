@@ -8,7 +8,7 @@ class TestFunding(unittest.TestCase):
     def setUp(self):
         assets_list_start_column = 3 # categories start at the 4th column in excel template
         assets_list_end_column = -1 #don't include the 'total' column
-        currentAccounts, fundingRequests, desiredAllocation = initializeObjects('test_funding.xlsx', assets_list_start_column, assets_list_end_column)
+        currentAccounts, fundingRequests, desiredAllocation, categoryRules = initializeObjects('test_funding.xlsx', assets_list_start_column, assets_list_end_column)
         self.fundAccounts = currentAccounts
         self.fundingRequests = fundingRequests
         self.desiredAllocation = desiredAllocation

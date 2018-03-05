@@ -58,11 +58,11 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
     categoryRules = {}
     for rule in categoryRulesSheet.getRowNames():
         categoryRules[rule] = {}
-        categoryRules[rule]['Category'] = categoryRulesSheet.getValue(rule, 'Category')
-        categoryRules[rule]['Rule'] = categoryRulesSheet.getValue(rule, 'Rule')
+        categoryRules[rule]['category'] = categoryRulesSheet.getValue(rule, 'Category')
+        categoryRules[rule]['rule'] = categoryRulesSheet.getValue(rule, 'Rule')
         if categoryRulesSheet.getValue(rule, 'Rule') == 'Count As':
-            categoryRules[rule]['Count As Category'] = categoryRulesSheet.getValue(rule, 'Count As Category')
-            categoryRules[rule]['Percent'] = categoryRulesSheet.getValue(rule, 'Percent')
+            categoryRules[rule]['countAsCategory'] = categoryRulesSheet.getValue(rule, 'Count As Category')
+            categoryRules[rule]['percent'] = categoryRulesSheet.getValue(rule, 'Percent')
 
 
     #### Create a dictionary of Account Rules ####
@@ -82,6 +82,7 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
     ######################################################################
     categoryList = currentAccounts.getHeaderNames()[assets_list_start_column:assets_list_end_column]
     accounts = {}
+    accountType = 1 # will use this variable to hand AccountType object once PR is merged
 
     for account in currentAccounts.getRowNames():
         if account == 'Total (Portfolio)':
@@ -92,7 +93,7 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
         assets = {}
         for category in categoryList:
             assets[category] = currentAccounts.getValue(account, category)
-        accounts[account] = ac.Account(owner, institution, account_type, assets, accountRules[account])
+        accounts[account] = ac.Account(owner, institution, account_type, assets, accountRules[account], accountType)
 
 
 

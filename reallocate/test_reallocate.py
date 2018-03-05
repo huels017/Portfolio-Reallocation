@@ -1,29 +1,39 @@
 import unittest
-
-from reallocate.initialize_objects import initializeObjects
-
+#from reallocate.utilities import sellFirstCategories
+#from reallocate.initialize_objects import initializeObjects
+from utilities import sellFirstCategories
+from initialize_objects import initializeObjects
 
 class TestReallocateFunctions(unittest.TestCase):
 
     def setUp(self):
         assets_list_start_column = 3 # categories start at the 4th column in excel template
         assets_list_end_column = -1 #don't include the 'total' column
-        accounts, fundingRequests, desiredAllocation = initializeObjects('test_reallocate.xlsx', assets_list_start_column, assets_list_end_column)
-        self.Accounts = accounts
+        accounts, fundingRequests, desiredAllocation, categoryRules = initializeObjects('test_reallocate.xlsx', assets_list_start_column, assets_list_end_column)
+        self.accounts = accounts
         self.desiredAllocation = desiredAllocation
+        self.categoryRules = categoryRules
 
 
 
-    def test_sell_first_scan(self):
+    def test_sell_first_category_taxed_sales(self):
+        taxedSalesLeft = 5000
+        sellFirstCategories(self.accounts, self.categoryRules, taxedSalesLeft)
+        self.assertEqual(taxedSalesLeft, 0)
+
+    def test_sell_first_category_cash_funding(self):
+        taxedSalesLeft = 5000
+        sellFirstCategories(self.accounts, self.categoryRules, taxedSalesLeft)
+        self.assertEqual(self.accounts['A10'].get_category_value('Cash/MMKT'), 15000)
         #scans through all accounts in group for category with 'sell first' rule, if present sell all of that category.
         #Balanced as 'sell first' and counts as 50/50 tax bonds/ large cap blend( all category diffs go to 0, balanced catorgy = balanced value  )
 
-
+    '''
     def test_difference_current_desired_allocation(self):
         #list of categories and diff value per category
 
 
-    def test_category_rules
+    def test_category_rules(self):
         #crypto as fixed and counts as commodity(crypto category diff = 0, commodity diff -= crypto value )
         #Balanced as 'sell first' and counts as 50/50 tax bonds/ large cap blend( all category diffs go to 0, balanced catorgy = balanced value  )
 
@@ -54,9 +64,9 @@ class TestReallocateFunctions(unittest.TestCase):
 
 
     def test_reallocate_group_accounts(self):
-
+    '''
 
 
 
 if __name__ == '__main__':
-unittest.main()
+    unittest.main()
