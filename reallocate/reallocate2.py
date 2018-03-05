@@ -10,14 +10,10 @@ def reallocate2(reallocateAccounts, desiredAllocation, categoryRules, taxGroups)
         categoryRules (dict): A dictionary of rules for categories.
         taxGroups (list): A list of the 3 different tax groups.
     '''
-    maxTaxedSales = 100000 #need to pull from excel
-    taxedSalesLeft = maxTaxedSales
-
-
+    taxedSalesLeft = 100000 #need to pull from excel
+ 
     #### 'Sell first' Category ####
-
     sellFirstCategories(reallocateAccounts, categoryRules, taxedSalesLeft)
-
 
     #### Reallocate Accounts ####
 
