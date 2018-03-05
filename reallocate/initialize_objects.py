@@ -9,11 +9,11 @@ Functions to initialize all objects.
 def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_column):
     '''
     Returns all objects needed for reallocation program
-    
-    Args: 
+
+    Args:
         excelFileName (str): Location and name of excel file with portfolio account data.
-        assets_list_column (int): Location of where the categories column starts. 
-        assets_list_end_column (int): Location of where the categories column ends. 
+        assets_list_column (int): Location of where the categories column starts.
+        assets_list_end_column (int): Location of where the categories column ends.
         account (dict): A dictionary of account objects representing entire portfolio
         fundingRequests (list): A list of dictionaries. Each dictionary represents a fundingRequest.
         desiredAllocation (dict): A dictionary of accounts with the desried percent allocation.
@@ -49,18 +49,32 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
     DESIRED_ALLOCATION_SHEET_NAME = "Desired_Allocation"
     desiredAllocationsheet = dc.DataContainer(dataframes[DESIRED_ALLOCATION_SHEET_NAME])
 
+    CATEGORY_RULES_SHEET_NAME = "Category_Rules"
+    categoryRulesSheet = dc.DataContainer(dataframes[CATEGORY_RULES_SHEET_NAME])
 
 
-    #### Create a dictionary of Rules ####
-    ######################################
-    rules = {}
+    #### Create a dictionary of Category Rules ####
+    ##############################################
+    categoryRules = {}
+    for rule in categoryRulesSheet.getRowNames():
+        categoryRules[rule] = {}
+        categoryRules[rule]['Category'] = categoryRulesSheet.getValue(rule, 'Category')
+        categoryRules[rule]['Rule'] = categoryRulesSheet.getValue(rule, 'Rule')
+        if categoryRulesSheet.getValue(rule, 'Rule') == 'Count As':
+            categoryRules[rule]['Count As Category'] = categoryRulesSheet.getValue(rule, 'Count As Category')
+            categoryRules[rule]['Percent'] = categoryRulesSheet.getValue(rule, 'Percent')
+
+
+    #### Create a dictionary of Account Rules ####
+    ##############################################
+    accountRules = {}
     for account in currentAccounts.getRowNames():
-        rules[account] = {}
+        accountRules[account] = {}
 
     for account in accountMinMax.getRowNames():
         for rule in accountMinMax.getHeaderNames()[1:5]:
             if str(accountMinMax.getValue(account, rule)) != 'nan':
-                rules[account][rule] = {'category': accountMinMax.getValue(account, accountMinMax.getHeaderNames()[0]), 'value': accountMinMax.getValue(account, rule)}
+                accountRules[account][rule] = {'category': accountMinMax.getValue(account, accountMinMax.getHeaderNames()[0]), 'value': accountMinMax.getValue(account, rule)}
 
 
 
@@ -78,7 +92,7 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
         assets = {}
         for category in categoryList:
             assets[category] = currentAccounts.getValue(account, category)
-        accounts[account] = ac.Account(owner, institution, account_type, assets, rules[account])
+        accounts[account] = ac.Account(owner, institution, account_type, assets, accountRules[account])
 
 
 
