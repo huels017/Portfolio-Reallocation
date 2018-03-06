@@ -55,6 +55,7 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
 
     #### Create a dictionary of Category Rules ####
     ##############################################
+    '''
     categoryRules = {}
     for rule in categoryRulesSheet.getRowNames():
         categoryRules[rule] = {}
@@ -63,6 +64,21 @@ def initializeObjects(excelFileName, assets_list_start_column, assets_list_end_c
         if categoryRulesSheet.getValue(rule, 'Rule') == 'Count As':
             categoryRules[rule]['countAsCategory'] = categoryRulesSheet.getValue(rule, 'Count As Category')
             categoryRules[rule]['percent'] = categoryRulesSheet.getValue(rule, 'Percent')
+    '''
+    categoryRules = {}
+    for rule in categoryRulesSheet.getRowNames():
+        category = categoryRulesSheet.getValue(rule, 'Category')
+        if category not in categoryRules:
+            categoryRules[category] = {}
+        if categoryRulesSheet.getValue(rule, 'Rule') == 'Count As':
+            categoryRules[category]['Count As Rule'] = True
+            if 'countAs' not in categoryRules[category]:
+                categoryRules[category]['countAs'] = {}
+            countAsCategory = categoryRulesSheet.getValue(rule, 'Count As Category')
+            percent = categoryRulesSheet.getValue(rule, 'Percent')
+            categoryRules[category]['countAs'][countAsCategory] = percent
+        else:
+            categoryRules[category]['rule'] = categoryRulesSheet.getValue(rule, 'Rule')
 
 
     #### Create a dictionary of Account Rules ####

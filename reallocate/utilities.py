@@ -90,20 +90,20 @@ def sellFirstCategories(reallocateAccounts, categoryRules, taxedSalesLeft):
         categoryRules (dict): A dictionary of rules for categories.
     '''
 
-    for rule in categoryRules:
-        if categoryRules[rule]['rule'] == 'Sell First':
+    for category in categoryRules:
+        if categoryRules[category]['rule'] == 'Sell First':
             for account in reallocateAccounts:
                 #need accountType merged before this can function properly
                 if reallocateAccounts[account].accountType == 'Fixed':
                     continue
                 elif reallocateAccounts[account].accountType == 'NQ':
-                    transferValue = min(taxedSalesLeft), reallocateAccounts[account].get_category_value(categoryRules[rule]['category'])
+                    transferValue = min(taxedSalesLeft), reallocateAccounts[account].get_category_value(categoryRules[category])
                     taxedSalesLeft -= transferValue
                 else:
-                    transferValue = reallocateAccounts[account].get_category_value(categoryRules[rule]['category'])
+                    transferValue = reallocateAccounts[account].get_category_value(category)
 
                 try:
-                    reallocateAccounts[account].withdraw_account(categoryRules[rule]['category'], transferValue)
+                    reallocateAccounts[account].withdraw_account(category, transferValue)
                 except:
                     print('Failed to withdraw account in fundAccount function')
 
@@ -154,3 +154,26 @@ def differenceCurrentDesiredAccounts(reallocateAccounts, desiredAllocation):
         currentValue = categoryTotal(reallocateAccounts, category)
         buySellCategories[category] = desiredValue - currentValue
     return buySellCategories
+
+
+def categoryCountAs(accounts, buySellCategories, categoryRules):
+    ''' Changes the buySellCategories dictionary to accommodate any 'count as' rules in the categoryRules dictionary.
+
+    Args:
+        accounts (dict): A dictionary of account objects representing entire portfolio
+        buySellCategories (dict): A dictionary of categories with the value to be sold to reach desired allocation. (negitive numbers mean it should be bought)
+        categoryRules (dict): A dictionary of rules for categories.
+    '''
+    for category in categoryRules:
+        if categoryRules[category]['Count As Rule'] == True:
+            categoryValue = categoryTotal(accounts, category)
+            for countAsCategory in categoryRules[category]['countAs']:
+                percent = categoryRules[category]['countAs'][countAsCategory]
+                buySellCategories[countAsCategory] += categoryValue * percent
+            buySellCategories[category] = 0
+
+
+
+
+
+        #
