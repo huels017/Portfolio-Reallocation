@@ -113,12 +113,44 @@ def sellFirstCategories(reallocateAccounts, categoryRules, taxedSalesLeft):
                     print('Failed to fund account in fundAccount function')
 
 
+def categoryTotal(accounts, category):
+    '''Returns the total value of a single category across all accounts
+
+    Args:
+        accounts (dict): A dictionary of account objects representing entire portfolio
+        category (str): A string representing the category to totalize.
+        categoryTotal (int): A integer representing the total value of a single category across all accounts.
+    '''
+    categoryTotal = 0
+    for account in accounts:
+        categoryTotal += accounts[account].get_category_value(category)
+    return categoryTotal
 
 
+def portfolioTotalValue(accounts):
+    ''' Returns the total value of a portfolio
+
+    Args:
+        accounts (dict): A dictionary of account objects representing entire portfolio
+        portfolioTotal (int): A integer representing the total value of a portfolio.
+    '''
+    portfolioTotal = 0
+    for account in accounts:
+        portfolioTotal += accounts[account].get_total_value()
+    return portfolioTotal
 
 
+def differenceCurrentDesiredAccounts(reallocateAccounts, desiredAllocation):
+    ''' Returns the difference per category between the current and the desired allocation. Positive numbers mean that category should be sold.
 
-
-
-
-        #
+    Args:
+        reallocateAccounts (dict): A dictionary of account objects representing entire portfolio
+        desiredAllocation (dict): A dictionary of categories with the desired percent allocation
+        buySellCategories (dict): A dictionary of categories with the value to be sold to reach desired allocation. (negitive numbers mean it should be bought)
+    '''
+    buySellCategories = {}
+    for category in desiredAllocation:
+        desiredValue = desiredAllocation[category] * portfolioTotalValue(reallocateAccounts)
+        currentValue = categoryTotal(reallocateAccounts, category)
+        buySellCategories[category] = desiredValue - currentValue
+    return buySellCategories

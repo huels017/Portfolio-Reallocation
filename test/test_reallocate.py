@@ -2,7 +2,7 @@ import unittest
 import sys
 sys.path.append('./')
 
-from reallocate.utilities import sellFirstCategories
+from reallocate.utilities import sellFirstCategories, categoryTotal, portfolioTotalValue, differenceCurrentDesiredAccounts
 from reallocate.initialize_objects import initializeObjects
 
 
@@ -44,11 +44,20 @@ class TestReallocateFunctions(unittest.TestCase):
         #scans through all accounts in group for category with 'sell first' rule, if present sell all of that category.
         #Balanced as 'sell first' and counts as 50/50 tax bonds/ large cap blend( all category diffs go to 0, balanced catorgy = balanced value  )
 
-    '''
+    def test_category_total(self):
+        self.assertEqual(categoryTotal(self.accounts, 'Cash/MMKT'), 112657)
+
+    def test_portfolio_total_value(self):
+        self.assertEqual(portfolioTotalValue(self.accounts), 752755.22)
+
     def test_difference_current_desired_allocation(self):
+        expectedDictionary = {u'REIT': 2157.432200000001, u'Muni Bonds': 3443.024899999993, u'Emg Mkts': 46393.18639999999, u'Cryptocurrency': 0.0, u'Cash/MMKT': -67491.6868, u'Commodities': 1456.4422000000004, u'Sm/Mid Growth': 1887.2531999999992, u'LC Value': 44294.884000000005, u'Tax Bonds': 31047.504899999996, u'LC Growth': -69572.89799999999, u'Balanced': -45000.0, u'International': 85424.29959999998, u'LC Blend': -27601.43800000001, u'Sm/Mid Value': 1162.7927000000018, u'Sm/Mid Blend': -7600.797299999995}
+        actualDictionary = differenceCurrentDesiredAccounts(self.accounts, self.desiredAllocation)
+        print(actualDictionary)
+        self.assertEqual(actualDictionary, expectedDictionary)
         #list of categories and diff value per category
 
-
+    '''
     def test_category_rules(self):
         #crypto as fixed and counts as commodity(crypto category diff = 0, commodity diff -= crypto value )
         #Balanced as 'sell first' and counts as 50/50 tax bonds/ large cap blend( all category diffs go to 0, balanced catorgy = balanced value  )
