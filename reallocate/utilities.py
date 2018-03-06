@@ -97,7 +97,7 @@ def sellFirstCategories(reallocateAccounts, categoryRules, taxedSalesLeft):
                 if reallocateAccounts[account].accountType == 'Fixed':
                     continue
                 elif reallocateAccounts[account].accountType == 'NQ':
-                    transferValue = min(taxedSalesLeft), reallocateAccounts[account].get_category_value(categoryRules[category])
+                    transferValue = min(taxedSalesLeft), reallocateAccounts[account].get_category_value(category)
                     taxedSalesLeft -= transferValue
                 else:
                     transferValue = reallocateAccounts[account].get_category_value(category)
@@ -152,7 +152,7 @@ def differenceCurrentDesiredAccounts(reallocateAccounts, desiredAllocation):
     for category in desiredAllocation:
         desiredValue = desiredAllocation[category] * portfolioTotalValue(reallocateAccounts)
         currentValue = categoryTotal(reallocateAccounts, category)
-        buySellCategories[category] = desiredValue - currentValue
+        buySellCategories[category] = currentValue - desiredValue
     return buySellCategories
 
 
@@ -171,9 +171,3 @@ def categoryCountAs(accounts, buySellCategories, categoryRules):
                 percent = categoryRules[category]['countAs'][countAsCategory]
                 buySellCategories[countAsCategory] += categoryValue * percent
             buySellCategories[category] = 0
-
-
-
-
-
-        #
