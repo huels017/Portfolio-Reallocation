@@ -1,6 +1,7 @@
 import unittest
-#import sys    # Chris will use this when testing
-#sys.path.insert(0, '/home/chris/Desktop/git-repos/Portfolio-Reallocation')   # Chris will use this when testing
+#import sys   # Chris will use this when testing
+#sys.path.append('./')   # Chris will use this when testing
+
 from reallocate.utilities import sellFirstCategories
 from reallocate.initialize_objects import initializeObjects
 
