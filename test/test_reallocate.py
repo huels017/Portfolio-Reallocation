@@ -1,15 +1,18 @@
 import unittest
+#import sys    # Chris will use this when testing
+#sys.path.insert(0, '/home/chris/Desktop/git-repos/Portfolio-Reallocation')   # Chris will use this when testing
 from reallocate.utilities import sellFirstCategories
 from reallocate.initialize_objects import initializeObjects
-#from utilities import sellFirstCategories
-#from initialize_objects import initializeObjects
+
 
 class TestReallocateFunctions(unittest.TestCase):
 
     def setUp(self):
         assets_list_start_column = 3 # categories start at the 4th column in excel template
         assets_list_end_column = -1 #don't include the 'total' column
-        accounts, fundingRequests, desiredAllocation, categoryRules = initializeObjects('test_reallocate.xlsx', assets_list_start_column, assets_list_end_column)
+        excelFileLocation = 'test_reallocate.xlsx'
+        #excelFileLocation = 'test/test_reallocate.xlsx'    # Chris will use this when testing
+        accounts, fundingRequests, desiredAllocation, categoryRules = initializeObjects(excelFileLocation, assets_list_start_column, assets_list_end_column)
         self.accounts = accounts
         self.desiredAllocation = desiredAllocation
         self.categoryRules = categoryRules
