@@ -17,9 +17,3 @@ Arguments:
 		self.is_exempt = is_exempt
 		self.changes_allowed = changes_allowed
 		self.limited = limited
-
-
-
-
-
- 
