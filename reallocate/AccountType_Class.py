@@ -1,5 +1,3 @@
-
- 
 class AccountType:
 """Class represents characteristics of AccountType
 
@@ -9,9 +7,7 @@ Arguments:
 	is_qualified(bool): whether account tax status is "qualified" or "not qualified"
 	is_deferred(bool): whether account tax status is "deferred"
 	is_exempt(bool): definition?
-	changes_allowed(bool): definition?
-
-
+	changes_allowed(bool): can be modified
 """
 
 	def __init__(self, name, tax_status, is_deferred, is_exempt, changes_allowed, limited):
