@@ -1,13 +1,12 @@
 class AccountType:
-"""Class represents characteristics of AccountType
+"""Represents the characteristics of an account type
 
 Arguments: 
-
 	name(string): name of account (ex. 401K, Cash, Roth IRA)
 	is_qualified(bool): whether account tax status is "qualified" or "not qualified"
 	is_deferred(bool): whether account tax status is "deferred"
-	is_exempt(bool): definition?
-	changes_allowed(bool): can be modified
+	is_exempt(bool):
+	changes_allowed(bool): the account can be modified
 """
 
 	def __init__(self, name, tax_status, is_deferred, is_exempt, changes_allowed, limited):
