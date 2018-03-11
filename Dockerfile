@@ -8,8 +8,10 @@ WORKDIR /home/appuser
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+RUN pip install gunicorn
 
-COPY manage.py config.py ./
+COPY manage.py config.py boot.sh ./
+RUN chmod +x boot.sh
 
 ENV FLASK_APP manage.py
 
@@ -19,4 +21,4 @@ RUN mkdir -p ./instance/uploads
 RUN chown -R appuser:appuser ./
 USER appuser
 
-CMD ["python", "manage.py"]
+CMD ["./boot.sh"]
