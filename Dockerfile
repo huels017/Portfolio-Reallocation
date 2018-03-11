@@ -13,6 +13,10 @@ RUN pip install gunicorn
 COPY manage.py config.py boot.sh ./
 RUN chmod +x boot.sh
 
+# Mounting a volume has caused issues when hosting on a server because the files
+# from the volume don't get the proper owner set after the image is created
+COPY app/ ./app
+
 ENV FLASK_APP manage.py
 
 # The ./instance/uploads directory holds uploaded files

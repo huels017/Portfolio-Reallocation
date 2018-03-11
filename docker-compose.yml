@@ -4,9 +4,7 @@ services:
     webapp:
         build: .
         ports:
-            - "5000:5000"
-        volumes:
-            - ./app:/home/appuser/app
+            - "8000:5000"
     dev:
         build: .
         ports:
