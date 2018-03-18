@@ -8,8 +8,14 @@ WORKDIR /home/appuser
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+RUN pip install gunicorn
 
-COPY manage.py config.py ./
+COPY manage.py config.py boot.sh ./
+RUN chmod +x boot.sh
+
+# Mounting a volume has caused issues when hosting on a server because the files
+# from the volume don't get the proper owner set after the image is created
+COPY app/ ./app
 
 ENV FLASK_APP manage.py
 
@@ -19,4 +25,4 @@ RUN mkdir -p ./instance/uploads
 RUN chown -R appuser:appuser ./
 USER appuser
 
-CMD ["python", "manage.py"]
+CMD ["./boot.sh"]
